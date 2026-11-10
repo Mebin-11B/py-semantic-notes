@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_tags.html" import tag_list %}
+{% block title %}Notes · PySemantic{% endblock %}
+{% block content %}
+<h1>Notes {% if tag %}<span class="tag big">{{ tag }}</span> <a class="small" href="{{ url_for('notes_list') }}">clear</a>{% endif %}</h1>
+<p class="muted small">{{ total }} note{{ '' if total == 1 else 's' }}</p>
+<ul class="list">
+{% for n in notes %}
+  <li>
+    <a class="title" href="{{ url_for('note_view', slug=n.slug) }}">{{ n.title }}</a>
+    <div class="meta">{% if n.source %}<span>{{ n.source }}</span>{% endif %}<span>{{ n.updated_at[:10] }}</span>{{ tag_list(n.tags) }}</div>
+  </li>
+{% endfor %}
+</ul>
+<div class="pager">
+  {% if page > 1 %}<a href="{{ url_for('notes_list', page=page-1, tag=tag) }}">← Prev</a>{% endif %}
+  <span class="muted">page {{ page }} / {{ pages or 1 }}</span>
+  {% if page < pages %}<a href="{{ url_for('notes_list', page=page+1, tag=tag) }}">Next →</a>{% endif %}
+</div>
+{% endblock %}

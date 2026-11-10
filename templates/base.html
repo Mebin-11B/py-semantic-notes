@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PySemantic Notes{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="{{ url_for('home') }}">Py<span>Semantic</span> Notes</a>
+    <nav>
+      <a href="{{ url_for('home') }}">Search</a>
+      <a href="{{ url_for('notes_list') }}">Notes</a>
+      <a href="{{ url_for('status') }}">Status</a>
+      <a class="btn" href="{{ url_for('note_new') }}">+ New note</a>
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>Flask · SQLite · ChromaDB · Ollama (nomic-embed-text)</footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Status · PySemantic{% endblock %}
+{% block content %}
+<h1>Status</h1>
+<div class="stats">
+  <div><b>{{ stats.notes }}</b><span>notes (SQLite)</span></div>
+  <div><b>{{ stats.tags }}</b><span>tags</span></div>
+  <div><b>{{ stats.chunks }}</b><span>chunk rows (SQLite)</span></div>
+  <div><b>{{ stats.vectors }}</b><span>vectors (ChromaDB)</span></div>
+</div>
+<p class="muted small">Chunk rows and vectors should match. Embedding model: <code>{{ model }}</code> (768 dimensions).</p>
+<div class="cols">
+  <section><h2>Top tags</h2>
+    <ul class="plain">{% for t in top_tags %}<li><a href="{{ url_for('notes_list', tag=t.name) }}">{{ t.name }}</a> <span class="muted">{{ t.n }}</span></li>{% endfor %}</ul></section>
+  <section><h2>Sources</h2>
+    <ul class="plain">{% for s in sources %}<li>{{ s.s }} <span class="muted">{{ s.n }}</span></li>{% endfor %}</ul></section>
+</div>
+<h2>Recent searches</h2>
+<table><tr><th>Query</th><th>Mode</th><th>Results</th><th>When</th></tr>
+{% for r in recent %}<tr><td>{{ r.query }}</td><td>{{ r.mode }}</td><td>{{ r.n_results }}</td><td>{{ r.created_at }}</td></tr>
+{% else %}<tr><td colspan="4" class="muted">No searches yet.</td></tr>{% endfor %}</table>
+{% endblock %}

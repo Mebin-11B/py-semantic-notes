@@ -4,7 +4,10 @@ keyword  -> SQLite FTS5 (BM25 ranking)             [SQL database]
 semantic -> nearest chunks in ChromaDB             [vector database]
 hybrid   -> both, merged with Reciprocal Rank Fusion
 """
+import html
 import re
+
+from markupsafe import Markup
 
 import db
 import embeddings
@@ -59,6 +62,9 @@ def hybrid(con, q, limit=20, k=60):
 def run(con, q, mode):
     results = {"keyword": keyword, "semantic": semantic, "hybrid": hybrid}[mode](con, q)
     for r in results:
+        # escape everything, then re-enable only the <mark> tags FTS5 added
+        r["snippet_html"] = Markup(html.escape(r["snippet"])
+                                   .replace("&lt;mark&gt;", "<mark>").replace("&lt;/mark&gt;", "</mark>"))
         r["tags"] = db.note_tags(con, r["id"])
     con.execute("INSERT INTO search_log(query, mode, n_results) VALUES (?,?,?)",
                 (q, mode, len(results)))

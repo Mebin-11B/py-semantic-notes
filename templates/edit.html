@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if note else 'New note' }} · PySemantic{% endblock %}
+{% block content %}
+<h1>{{ 'Edit note' if note else 'New note' }}</h1>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="post" class="form">
+  <label>Title <input name="title" required value="{{ note.title if note else request.form.get('title','') }}"></label>
+  <label>URL <input name="url" type="url" value="{{ (note.url or '') if note else '' }}"></label>
+  <label>Source <input name="source" value="{{ (note.source or '') if note else '' }}"></label>
+  <label>Tags <small>(comma separated)</small> <input name="tags" value="{{ tags }}"></label>
+  <label>Body <small>(markdown)</small> <textarea name="body" rows="18">{{ note.body if note else '' }}</textarea></label>
+  <p class="muted small">Saving re-chunks the text and re-embeds it into the vector DB.</p>
+  <div class="actions">
+    <button type="submit">Save</button>
+    <a class="btn ghost" href="{{ url_for('note_view', slug=note.slug) if note else url_for('home') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
