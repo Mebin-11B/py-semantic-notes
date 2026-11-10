@@ -1,3 +1,5 @@
 flask
 chromadb
 requests
+markdown
+nh3
