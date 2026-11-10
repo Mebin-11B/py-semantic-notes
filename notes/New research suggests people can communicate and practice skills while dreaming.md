@@ -1,0 +1,33 @@
+---
+title: "New research suggests people can communicate and practice skills while dreaming"
+url: https://www.newyorker.com/culture/annals-of-inquiry/its-possible-to-learn-in-our-sleep-should-we
+clipped: 2026-06-17 01:09:11
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+---
+
+# [New research suggests people can communicate and practice skills while dreaming](https://www.newyorker.com/culture/annals-of-inquiry/its-possible-to-learn-in-our-sleep-should-we)
+
+## Digest Summary
+Research shows that specific forms of learning can occur during sleep. Anat Arzi’s 2014 study paired cigarette‑related and foul odors for sleeping participants; smokers subsequently cut consumption by over 30 %, outperforming those exposed while awake. Emma Peters (University of Bern) trained lucid‑dreamers to rehearse motor tasks (e.g., finger tapping, dart throwing) in REM sleep, and participants displayed greater post‑sleep improvement than controls, though dream environments remain uncontrolled. A larger collaboration led by Konkoly and Paller used EEG‑verified lucid dreaming to deliver yes/no questions and simple arithmetic, capturing responses via predefined eye‑movement signals. Some subjects recalled the queries upon waking, indicating “complex learning.” In a follow‑up published in *Neuroscience of Consciousness*, twenty lucid dreamers worked on puzzles linked to auditory cues across multiple nights, solving 42 % of dream‑presented puzzles versus 17 % of unrelated ones. Across these experiments, sleep‑stage selection (non‑dreaming vs. REM lucid) and external cueing appear critical for facilitating behavioral and cognitive changes without conscious awareness.
+
+## Discussion Summary
+Comments converge on the idea that sleep and dreaming often yield insights, problem‑solving breakthroughs, and reinforced learning, with numerous personal anecdotes describing solutions emerging after rest or lucid dreams. Several contributors note the importance of relaxed, uninterrupted sleep and cite research on memory reactivation, though many express caution about overstating effects and question reproducibility. Opinions vary on the practicality of exploiting dreams for productivity, with some embracing it as a valuable tool and others skeptical of its reliability or wary of potential sleep disruption. Overall, the discussion reflects mixed enthusiasm tempered by scientific caution.
+
+---
+
+## Full Article
+
+What we learn in our sleep can apparently influence our behavior, too. In 2014, the neuroscientist Anat Arzi was a graduate student at the Weizmann Institute of Science. She published a study that exposed sleeping participants to pairings of scents. Smokers who smelled a mix of cigarettes and rotting fish overnight subsequently reduced their cigarette consumption by more than thirty per cent—more than people who smelled the pairing while awake.
+
+Rasch and Arzi’s most significant findings were from sleep stages in which people dream less frequently. Emma Peters, a self-described “dream engineer” at the University of Bern, has instead conducted experiments on lucid dreamers while they are in *REM* sleep. In these kinds of experiments, participants are told to practice physical activities—finger tapping, coin tossing, dart throwing with a nondominant hand—within their dreams. After they wake up, they turn out to show more improvement on those tasks than a control group. (That said, dreams are not the most controlled environment. One dart-throwing dreamer was distracted by a volley of darts from a doll that suddenly appeared; this participant was not any better at throwing darts the next day.)
+
+In perhaps the most striking example of learning during sleep, Konkoly, Paller, and several collaborators witnessed what amounted to conversations with people who were in the midst of dreams. Independent lab groups in the U.S., France, Germany, and the Netherlands asked lucid dreamers to answer yes-or-no questions and solve simple math problems. Electrodes measuring body and brain activity verified that the participants were not awake. Martin Dresler, a sleep researcher at the Donders Institute, who ran the Dutch experiments, said that they were able to verbally deliver new information to the sleeping mind—and to receive responses. Some people could remember the questions they had been asked when they woke up. “This is a form of very complex learning,” he told me.
+
+Christopher Mazurek, one of the participants in the study, was nineteen at the time. He recalled hearing a math problem—eight minus six—during a lucid dream. He doesn’t remember what the dream was about—“something about my favorite video game,” he told me—but he knew that the question came from beyond the dream. He was instructed to respond by moving his eyes from left to right, and sure enough, the researchers counted two rightward movements of his eyes. Other participants experienced the sounds within the context of their dreams; in one, the question seemed to emanate from a dream radio. Thomas Andrillon, a sleep neuroscientist at the Paris Brain Institute who was not involved in the research, called it “one of the most mind-breaking papers I’ve ever read.”
+
+Once, in Paller’s lab, Bark-Huss dreamed that she crashed her car. She was convinced that she’d spent too much time as a study participant and had become sleep-deprived. She saw flashing lights that she interpreted as the police. “I was freaking out because I thought I might have killed somebody,” she told me. “Then I realized, It’s not the cops. I’m in the lab now, and that’s the light from the lab.” She was able to communicate with Konkoly using eye signals—and, through it all, she continued sleeping. She remembered finding it eerie to come across signals from the waking world. “You realize that somebody is communicating to you from what feels like another dimension,” she said.
+
+Konkoly’s study of problem-solving was published earlier this year, in *Neuroscience of Consciousness*. Twenty lucid dreamers, including Bark-Huss, spent multiple nights in the lab, trying to work out puzzles in their sleep. Each puzzle was paired with a specific sound, which was supposed to prompt them to resume work on the associated puzzle. One participant dreamed of asking for help from a fellow-passenger in a car. “I actually don’t know,” the passenger replied. “It’s kind of hard.” Another dreamed of solving the puzzle when it appeared on a school exam; upon waking, the solution was apparent in real life. In the lab, participants figured out forty-two per cent of the puzzles that showed up in their dreams. They solved only seventeen per cent of the ones that didn’t.

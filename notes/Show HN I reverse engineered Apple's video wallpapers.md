@@ -1,0 +1,123 @@
+---
+title: "Show HN: I reverse engineered Apple's video wallpapers"
+url: https://github.com/kageroumado/phosphene
+clipped: 2026-06-17 00:59:41
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+---
+
+# [Show HN: I reverse engineered Apple's video wallpapers](https://github.com/kageroumado/phosphene)
+
+## Digest Summary
+Phosphene is a macOS 14+ (Tahoe 26.0) video‑wallpaper engine consisting of a menu‑bar app and a wallpaper extension. It uses Apple’s private WallpaperExtensionKit framework (loaded via dlopen) and Mirror‑based runtime introspection to communicate with XPC types, allowing videos (MP4, MOV, or any AVFoundation‑readable format) to appear alongside Apple’s Aerials in System Settings → Wallpaper.
+
+Key technical features:  
+- Gapless, frame‑accurate looping by offsetting PTS/DTS across loop boundaries, avoiding renderer flushes.  
+- Multi‑display and per‑Space support with persistent selections.  
+- Power‑aware PlaybackPolicy that selects full, reduced, minimal, or paused states based on thermal state, battery level, AC power, Game Mode, and presentation mode; it also pauses when the desktop is occluded.  
+- Adaptive video variants (lower‑resolution/fps) that are swapped at loop boundaries according to the current policy.  
+- Smooth lock‑screen ramp using a cubic ease‑in/out curve.  
+- Menu‑bar UI for library management, preview, pause toggle, display selection, and preferences; launches at login.
+
+Implementation details: the app (SwiftUI, arm64, Xcode 17+, Swift 6 strict concurrency) manages the video library and optional HEVC transcoding via a VideoOptimizationService. The extension runs inside WallpaperAgent, renders frames with AVSampleBufferDisplayLayer into a remote CAContext, and uses a custom snapshot XPC swizzle to avoid lock‑screen encoding failures. The project is MIT‑licensed and targets Apple Silicon.
+
+## Discussion Summary
+The comments express strong approval for the method of using video frames as custom desktop and lock‑screen wallpapers, noting that it resolves prior confusion about downloading screensavers and enables personal video use. Users appreciate the technical insight, recall nostalgia for earlier wallpaper styles, and show interest in downloading compatible video sets. Some suggest clearer titles and warn that Apple could later break the approach, while a few recount past data‑usage problems with native wallpapers. Overall, the feedback is enthusiastic, inquisitive, and mildly cautionary.
+
+---
+
+## Full Article
+
+A video wallpaper engine for macOS Tahoe.
+
+Phosphene is a menu bar app + wallpaper extension that plays your own video files as the macOS desktop and lock-screen wallpaper. It plugs into the system's native wallpaper picker, so videos appear alongside Apple's built-in Aerials in **System Settings → Wallpaper**.
+
+It is built on top of Apple's private `WallpaperExtensionKit` framework — the same one Apple's own Aerials use — which means playback runs out-of-process, survives app quits, and integrates with the OS-level lock-screen / idle / sleep lifecycle.
+
+> ⚠️ **Private framework.** Phosphene loads `WallpaperExtensionKit` via `dlopen` and uses Mirror-based runtime introspection to talk to its XPC types. Apple could change this at any major OS release. The project tracks macOS 26 (Tahoe).
+
+* **Bring your own videos.** Import MP4 / MOV / any AVFoundation-readable file. They show up in the system wallpaper picker.
+* **Gapless looping.** Frame-accurate loops by offsetting PTS/DTS across loop boundaries — no flush, no stutter.
+* **Multi-display + per-Space selections.** Different wallpapers per display, persisted by macOS.
+* **Power-aware playback.** A graduated `PlaybackPolicy` reduces work or pauses entirely based on thermal state, battery level, on-battery vs AC, Game Mode, and presentation mode (active / locked / idle).
+* **Smooth lock-screen ramp.** When *Only on Lock Screen* is enabled, the wallpaper eases in/out with a cubic curve as you lock and unlock, matching Apple's own Aerials behavior.
+* **Pause when occluded.** Detects when every display is fully covered by windows and pauses rendering until the desktop is visible again.
+* **Adaptive variants.** Optionally pre-render lower-resolution / lower-fps variants of a video; the renderer swaps to the cheapest variant that satisfies the current policy at each loop boundary.
+* **Menu bar control.** Preview the current wallpaper, toggle pause, switch displays, configure behavior, launch at login.
+
+* **macOS Tahoe (26.0+).** Phosphene depends on the Wallpaper extension point introduced in macOS 14 but uses Tahoe-only SwiftUI and `glassEffect()` APIs.
+* **Apple Silicon.** Targets `arm64-apple-macos26.0`.
+* **Xcode 17+** to build, with Swift 6 strict concurrency enabled.
+
+```
+git clone https://github.com/kageroumado/phosphene.git
+cd phosphene
+open Phosphene.xcodeproj
+```
+
+In Xcode, select the **Phosphene** scheme and Run. The project uses synchronized filesystem groups, so adding/removing files in `Phosphene/` or `PhospheneExtension/` requires no pbxproj edits.
+
+You'll need to set a development team for code signing. The wallpaper extension is embedded into the app bundle and registered with the system when the app launches.
+
+For a headless compile check without local signing identities:
+
+```
+xcodebuild -project Phosphene.xcodeproj -scheme Phosphene -configuration Debug \
+  -destination 'generic/platform=macOS' \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' build
+```
+
+On the default DerivedData path, the unsigned debug app is produced at:
+
+```
+~/Library/Developer/Xcode/DerivedData/Phosphene-*/Build/Products/Debug/Phosphene.app
+```
+
+To install that local debug build into Applications:
+
+```
+rm -rf /Applications/Phosphene.app
+cp -R ~/Library/Developer/Xcode/DerivedData/Phosphene-*/Build/Products/Debug/Phosphene.app /Applications/
+```
+
+1. Launch Phosphene. Use the menu bar icon to **Manage Library** and add one or more videos.
+2. Open **System Settings → Wallpaper**. Phosphene's videos appear under their own collection.
+3. Pick a video. macOS handles the actual wallpaper assignment — Phosphene's extension provides the frames.
+
+```
+┌─────────────────────────┐         ┌──────────────────────────────┐
+│  Phosphene.app          │         │  PhospheneExtension.appex     │
+│  (menu bar UI)          │         │  (host: WallpaperAgent)       │
+│                         │         │                              │
+│  • Library management   │  Darwin │  • XPC handler                │
+│  • Per-video metadata   │ ──────▶ │  • AVSampleBufferDisplayLayer │
+│  • Optimization (HEVC)  │  notif. │  • Power / thermal monitor    │
+│  • Preferences          │         │  • Snapshot generator         │
+└─────────────────────────┘         └──────────────────────────────┘
+                  │                              │
+                  └──────────────┬───────────────┘
+                                 ▼
+                  Shared App Group container
+                  (~/Library/Group Containers/glass.kagerou.phosphene)
+                  • Video library + variants
+                  • WallpaperPrefs.plist
+                  • BMP snapshot cache
+```
+
+**App side** (`Phosphene/`) — SwiftUI menu-bar app. Manages the on-disk video library, transcodes optional lower-resolution variants via `VideoOptimizationService`, exposes preferences, and posts a Darwin notification when the library changes.
+
+**Extension side** (`PhospheneExtension/`) — runs inside the system `WallpaperAgent` process when a Phosphene wallpaper is active. Loads `WallpaperExtensionKit.framework` at runtime, registers as a wallpaper provider, and renders frames into a remote `CAContext` via `AVSampleBufferDisplayLayer`. It receives XPC `acquire` / `update` / `invalidate` / `snapshot` calls from `WallpaperAgent` and routes presentation-mode changes through `PlaybackPolicy`.
+
+**`PlaybackPolicy`** is the single source of truth for playback behavior. Inputs (thermal state, battery, presentation mode, user pause, occlusion, etc.) collapse to one of `full / reduced / minimal / paused`. The renderer applies the policy on every state change.
+
+**`VideoRenderer`** owns the decode pipeline. Instead of `AVPlayerLayer` — which silently fails inside a remote `CAContext` — it drives `AVSampleBufferDisplayLayer` manually: one `AVAssetReader` for the current loop, a preloaded one for the next, and a PTS offset that grows across loops to keep the timeline monotonically increasing. Result is glitch-free looping without flushing the renderer.
+
+* **`WallpaperSnapshotXPC` swizzle.** The system's snapshot encoder checks `type(of: coder) == NSXPCCoder.self`, but the real coder is a subclass. Without the runtime swizzle in `PhospheneExtension.swift`, snapshots silently encode to nothing and you get a grey lock screen during transitions.
+* **Mirror-based XPC parsing.** Apple's request types (`WallpaperCreationRequestXPC` etc.) aren't part of any public SDK header. The extension reads them via `Mirror` reflection. If Apple renames fields, expect surgical breakage.
+* **Variants are advisory.** A "1080p@30" variant won't be selected if Power-Monitor thinks we're on AC and idle — `PlaybackPolicy` always picks the highest tier that's still allowed.
+
+[MIT](https://github.com/kageroumado/phosphene/blob/main/LICENSE). Do whatever you want, no warranty.
+
+Built by [@kageroumado](https://x.com/kageroumado). Phosphene was originally a commercial project; it's open-source now because the market for "video wallpaper apps on macOS" turned out to be more crowded than it looked.

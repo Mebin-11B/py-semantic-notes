@@ -1,0 +1,269 @@
+---
+title: "Show HN: Rust but Lisp"
+url: https://github.com/ThatXliner/rust-but-lisp
+clipped: 2026-06-17 01:05:14
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+processed: true
+processed_at: 2026-06-23
+summary_status: done
+concepts:
+  - Lisp
+  - Rust Programming
+  - Compilers
+  - Macros
+  - Transpilation
+related:
+  - "[[Lisp]]"
+  - "[[Rust Programming]]"
+  - "[[Compilers]]"
+  - "[[Macros]]"
+  - "[[Transpilation]]"
+---
+
+<!-- ai-summary:start -->
+> [!summary]
+> **One-line summary:** rlisp is a hobby project that transpiles Lisp-style s-expressions directly to standard Rust code, retaining all Rust semantics without a garbage collector.
+>
+> **Key points:**
+> - rlisp compiles s-expressions to ordinary `.rs` files which are then compiled by `rustc`, preserving borrow-checking and optimizations.
+> - The language represents Rust constructs like structs, enums, lifetimes, pattern matching, and unsafe blocks using s-expressions.
+> - Instead of using Rust's procedural token-stream macros, rlisp implements a compile-time Lisp macro system with quasiquoting.
+> - Comments highlight interest in the macro capabilities but raise concerns about error diagnostics, completeness, and practical IDE support.
+>
+> **Concept links:** [[Lisp]], [[Rust Programming]], [[Compilers]], [[Macros]], [[Transpilation]]
+>
+> **Suggested connections:**
+> - [[Rust Programming]] — implementing strong static typing and borrow checking inside an s-expression grammar.
+> - [[Macros]] — comparing Lisp-style macro expansions with Rust's macro system.
+<!-- ai-summary:end -->
+
+# [Show HN: Rust but Lisp](https://github.com/ThatXliner/rust-but-lisp)
+
+## Digest Summary
+rlisp is a weekend project that provides a Lisp‑style front‑end for Rust. Source files written as s‑expressions are transpiled to ordinary Rust code (.rs) and then compiled with rustc, preserving full Rust semantics: ownership, borrowing, lifetimes, generics, traits, pattern matching, and unsafe blocks. The tool implements a transparent syntax conversion without adding a runtime or garbage collector. Common Rust constructs (structs, enums, impl blocks, functions, macros, loops, match, if‑let, while‑let, etc.) have direct s‑expression equivalents, and binary operators are emitted as infix forms. rlisp’s macro system consists of compile‑time functions that transform s‑expressions; it uses quasiquote, unquote, and unquote‑splicing rather than the procedural‑macro token‑stream model. The project supports embedding raw Rust via a (rust "...") form. Missing features include some syntax such as turbofish (now fixed) and lifetime bounds (on the roadmap). The repository includes a CLI with commands to transpile, build, and run .lisp files.
+
+## Discussion Summary
+The comments show mixed reactions to the Rust‑inspired Lisp project. Several contributors appreciate the concept of directly compiling s‑expressions to Rust but question its practical value, noting absent Rust‑specific syntax support, unclear error reporting, and limited IDE integration. Critics point to the reliance on LLM‑generated code, suggesting the language’s design and tooling are under‑engineered and that a more conventional grammar would aid both developers and AI tools. Overall, interest is tempered by concerns over usability, documentation quality, and the project’s readiness for production.
+
+---
+
+## Full Article
+
+> **Hello, Hacker News.** You're not wrong. This is a weekend project, not a production compiler — some Rust syntax is missing (turbofish is fixed now, lifetime bounds are on the list). The point isn't completeness; it's exploring what happens when you bolt Lisp macros onto Rust semantics. If that sounds interesting, read on. If you're looking for something to be mad about, [the issue tracker is open](https://github.com/ThatXliner/rust-but-lisp/issues).
+
+Rust semantics in LISP syntax. Write s-expressions, output Rust source: `(s-expr → .rs → binary)`.
+
+```
+(struct Point
+  (x f64)
+  (y f64))
+
+(impl Point
+  (fn distance ((&self) (other &Point)) f64
+    (let dx (- (. self x) (. other x)))
+    (let dy (- (. self y) (. other y)))
+    (. (+ (. dx powf 2.0) (. dy powf 2.0)) sqrt)))
+
+(fn main () ()
+  (let p1 (raw_new Point (x 0.0) (y 0.0)))
+  (let p2 (raw_new Point (x 3.0) (y 4.0)))
+  (println! "Distance: {}" (. p1 distance (& p2))))
+```
+
+Ownership, borrowing, lifetimes, generics, traits, pattern matching — all expressed as s-expressions. `rustc` still does type checking, borrow checking, and optimization. rlisp just handles the syntax.
+
+[![Build demo](https://github.com/ThatXliner/rust-but-lisp/raw/main/assets/success_demo.gif)](https://github.com/ThatXliner/rust-but-lisp/blob/main/assets/success_demo.gif)
+
+Pretty diagnostics with [Ariadne](https://codeberg.org/zesterer/ariadne):
+
+[![Parse error demo](https://github.com/ThatXliner/rust-but-lisp/raw/main/assets/parse_error_demo.gif)](https://github.com/ThatXliner/rust-but-lisp/blob/main/assets/parse_error_demo.gif)
+
+```
+git clone https://github.com/ThatXliner/rust-but-lisp.git
+cd rlisp
+cargo install --path .
+```
+
+```
+rlisp compile file.lisp   # transpile to file.rs
+rlisp build file.lisp     # transpile and compile with rustc
+rlisp run file.lisp       # transpile, compile, and run
+```
+
+| LISP | Rust |
+| --- | --- |
+| `(fn add ((x i32) (y i32)) i32 (+ x y))` | `fn add(x: i32, y: i32) -> i32 { (x + y) }` |
+| `(let x 42)` / `(let mut x 42)` | `let x = 42;` / `let mut x = 42;` |
+| `(let (x i32) 42)` / `(let mut (x i32) 42)` | `let x: i32 = 42;` / `let mut x: i32 = 42;` |
+| `(struct Point (x f64) (y f64))` | `struct Point { x: f64, y: f64 }` |
+| `(enum Option (generic T) (Some T) None)` | `enum Option<T> { Some(T), None }` |
+| `(match val ((Some x) (handle x)) (None ()))` | `match val { Some(x) => { handle(x) }, None => { } }` |
+| `(if (> x 0) (println! "yes") (println! "no"))` | `if (x > 0) { println!("yes") } else { println!("no") }` |
+| `(impl Point ((fn new (...) ...)))` | `impl Point { fn new(...) ... }` |
+| `(trait Display ((fn fmt (...) Result)))` | `trait Display { fn fmt(...) -> Result; }` |
+| `(. obj field)` / `(. obj method arg)` | `obj.field` / `obj.method(arg)` |
+| `(raw_new Point (x 1.0) (y 2.0))` | `Point { x: 1.0, y: 2.0 }` |
+| `(lambda (x y) (+ x y))` | `|x, y| { x + y }` |
+| `(for x in iter (body))` / `(loop (body))` / `(while cond (body))` | `for x in iter { body }` / `loop { body }` / `while cond { body }` |
+| `(pub fn foo () i32 42)` | `pub fn foo() -> i32 { 42 }` |
+
+Binary operators (`+`, `-`, `*`, `/`, `==`, etc.) emit infix: `(+ a b)` → `(a + b)`, `(+ a b c)` → `(a + b + c)`.
+
+Generic type application is explicit: `(Option (generic i32))` → `Option<i32>`.
+
+Kebab-case identifiers with hyphens are converted to `__` (double underscore): `page-header` → `page__header`. Collisions (e.g. `foo-bar` and `foo__bar` both → `foo__bar`) emit a warning.
+
+Typed `let` bindings are explicit: wrap the binding target as `(name Type)`, as in `(let (count usize) 0)`. Bare `let` accepts one value expression only; use `(do ...)` when the initializer needs multiple steps.
+
+**Full reference:** [SYNTAX.md](https://github.com/ThatXliner/rust-but-lisp/blob/main/SYNTAX.md) covers generics, lifetimes, visibility, modules, turbofish, inline Rust, const/static, if-let, while-let, else-if, match guards, derive, where clauses, supertraits, associated types, type aliases, and more.
+
+rlisp macros are compile-time s-expression transformers — no `proc_macro` crate, no token streaming, no syn/quote. A macro is just a function from s-expressions to s-expressions.
+
+Macro bodies use three special forms borrowed from LISP:
+
+| Form | Meaning |
+| --- | --- |
+| `(quasiquote template)` | "Quote this template, but allow unquotes inside" — like a tagged template literal |
+| `(unquote name)` | "Insert the value of `name` here" — a hole in the template |
+| `(unquote-splicing name)` | "Splice the list `name` into the surrounding list" — for inserting multiple forms |
+
+Think of `quasiquote` as "return this exact s-expression, except for the `unquote` holes." Without it, you'd have to manually construct every parenthesis with `list` and `cons`.
+
+```
+;; Define a when macro: (when condition body...)
+(defmacro when (condition &rest body)
+  (quasiquote (if (unquote condition) (do (unquote-splicing body)))))
+
+;; Macro expansion:
+;;   (when (> x 10) (print "big") (print "huge"))
+;; → (if (> x 10) (do (print "big") (print "huge")))
+;; → if x > 10 { print("big"); print("huge") }
+
+(defmacro double (x)
+  (quasiquote (+ (unquote x) (unquote x))))
+
+;; (double 21) → (+ 21 21) → 21 + 21
+
+(fn main () ()
+  (let x 21)
+  (println! "Double: {}" (double x))
+  (when (> x 10)
+    (println! "x is greater than 10")
+    (println! "this too")))
+```
+
+`&rest` captures all remaining arguments into a list, and `unquote-splicing` flattens that list into the surrounding form. This is how variadic macros work.
+
+```
+(while (> x 0)
+  (println! "{}" x)
+  (-= x 1))
+
+(loop (println! "tick"))
+
+(for x in 0..10
+  (println! "{}" x))
+
+;; for with destructuring (double parens for tuple patterns)
+(for ((i val)) in (. v iter) enumerate
+  (println! "{}: {}" i val))
+```
+
+```
+;; untyped
+(let add (lambda (x y) (+ x y)))
+
+;; typed with return type
+(let mul (lambda ((x i32) (y i32)) -> i32 (* x y)))
+
+;; move closure
+(let s "hello")
+(let greet (lambda move () (println! "{}" s)))
+```
+
+Modules, visibility, and imports
+--------------------------------
+
+```
+(pub fn public_api () i32 42)
+(pub (crate) fn internal () i32 0)       ;; pub(crate)
+(pub (super) fn parent_visible () i32 1)  ;; pub(super)
+
+(pub struct Config
+  (pub host String)                        ;; public field
+  (port u16))                              ;; private field
+
+(pub mod utils (                          ;; inline module
+  (pub fn helper () i32 1)
+  (fn private () i32 0)))
+
+(mod external_lib)                        ;; external module decl
+
+(use std::collections::HashMap)
+(use std::io::{self,Write,Read})
+(use std::fmt::Display as Fmt)
+```
+
+Drop into raw Rust with `(rust "...")` for anything rlisp doesn't express natively.
+The string is emitted verbatim into the generated `.rs` file (with LISP escape sequences unescaped):
+
+```
+(fn raw_example () i32
+  (rust "let x: i32 = 42; x * 2"))
+
+(fn main () ()
+  (rust "let message: &str = \"from raw Rust\";")
+  (println! "{}" (rust "message")))
+```
+
+Lifetimes, turbofish, and control flow
+--------------------------------------
+
+```
+;; Lifetime annotations on function definitions
+(fn longest (generic 'a) ((x &'a str) (y &'a str)) (&'a str)
+  (if (> (. x len) (. y len)) x y))
+
+;; Turbofish via :: special form
+(let nums ((:: (. (0..10) collect) Vec<i32>)))
+
+;; Break, continue, return
+(for x in 0..10
+  (if (== x 5) (break))
+  (if (== x 3) (continue))
+  (println! "{}" x))
+
+;; Type casts
+(let pi 3.14159)
+(let approx (as pi u32))
+
+;; if-let and while-let
+(if-let (Some v) (. map get key)
+  (println! "found: {}" v)
+  (println! "missing"))
+
+(while-let (Some v) ((. iter next))
+  (println! "{}" v))
+
+;; Unsafe blocks
+(unsafe
+  (rust "let ptr: *const i32 = &42;")
+  (rust "*ptr"))
+```
+
+Mostly for fun. I wanted to see what Rust feels like with the syntax stripped away but the type system and borrow checker still there.
+
+**Macros** are the obvious practical win: in LISP they're just functions that return s-expressions, running at compile time. No proc\_macro, no token streaming. You write `defmacro`, you get quasiquote, you're done.
+
+**Structural editing** is another thing you don't appreciate until you try it. S-expressions are trivially balanced. You can't accidentally leave a brace dangling.
+
+And **the uniformity** grows on you. Expressions, types, patterns, statements — they all look the same. A function signature uses the same syntax as a match arm. It's less to keep in your head.
+
+Hey, if you like this project and read this far, consider starring it on GitHub!
+
+Additionally, please check out some of my more serious projects, namely [Xclif](https://github.com/ThatXliner/xclif) (file-based routing CLI framework), and [Quillium](https://quillium.bryanhu.com?utm_source=github&utm_medium=readme&utm_id=rust-but-lisp) (inline branching for prose; think Git for writing)
+
+MIT

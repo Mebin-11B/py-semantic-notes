@@ -1,0 +1,210 @@
+---
+title: "Ultrafast machine learning on FPGAs via Kolmogorov-Arnold Networks"
+url: https://aarushgupta.io/posts/kan-fpga/
+clipped: 2026-06-17 00:50:00
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+---
+
+# [Ultrafast machine learning on FPGAs via Kolmogorov-Arnold Networks](https://aarushgupta.io/posts/kan-fpga/)
+
+## Digest Summary
+The article outlines hardware architectures for ultrafast inference and online learning on FPGAs using Kolmogorov‑Arnold Networks (KANs). Fixed‑point quantization encodes real‑valued neural computations as binary functions, enabling lookup‑table (LUT) implementation of univariate activation functions. By representing each KAN edge activation as a separate LUT, the design avoids exponential growth of LUT entries that occurs with multivariate functions, and leverages B‑spline bases that are local (only S + 1 active basis functions per interval) and bounded (∑B_i(x)=1), which simplifies fixed‑point range selection and stabilizes gradient updates. Inference proceeds by parallel LUT reads for activations followed by an adder tree for the summed outputs; multi‑layer networks cascade these blocks. For online learning, B‑spline values remain in LUTs while coefficients are updated in‑place on the FPGA, allowing forward, backward, and weight‑update passes to run at sub‑microsecond latency. Reported results show up to 2700× speedup over prior KAN‑FPGA implementations, scaling to >50 k parameters with near‑constant resource usage and improved convergence on benchmarks such as function approximation, qubit readout, and non‑stationary control.
+
+## Discussion Summary
+Comments show a mix of cautious interest and skepticism toward KANs on FPGA. Users acknowledge the novelty and appreciate the naming, while noting that current implementations target latency rather than the high‑throughput demands of large‑scale LLM inference. Several remarks question whether activation‑function precision yields substantial gains beyond modest models and highlight practical limits imposed by FPGA size. Resources such as a GitHub repository and related discussion threads are shared for experimentation, and overall sentiment leans toward tentative optimism tempered by concerns about scalability and real‑world applicability.
+
+---
+
+## Full Article
+
+Ultrafast machine learning on FPGAs via Kolmogorov-Arnold Networks
+==================================================================
+
+07 Jun 2026
+
+This post is a high-level explainer for my Master’s thesis, which involves designing hardware architectures for ultrafast inference and online learning using the Kolmogorov-Arnold Network (KAN) architecture. I’ll assume familiarity with standard machine learning concepts, as well as some understanding of hardware and digital circuits; read my previous post [here](https://aarushgupta.io/posts/cpu/) for the latter.
+
+Please read the two papers below for more information, particularly for details on benchmarks and notable results.
+
+> **[FPGA 2026 Best Paper]**  
+> Duc Hoang**\***, Aarush Gupta**\***, and Philip C. Harris. “KANELÉ: Kolmogorov–Arnold Networks for Efficient LUT-based Evaluation.” *Proceedings of the 2026 ACM/SIGDA International Symposium on Field Programmable Gate Arrays*. ACM, 2026. <https://dx.doi.org/10.1145/3748173.3779202>
+>
+> **[ICML 2026]**  
+> Duc Hoang**\***, Aarush Gupta**\***, and Philip Harris. “Ultrafast on-FPGA Online Learning via Spline Locality in Kolmogorov-Arnold Networks.” *arXiv preprint arXiv:2602.02056*, 2026. <https://arxiv.org/abs/2602.02056>
+>
+> **\*equal contribution**
+
+### The case for machine learning on FPGAs
+
+Most modern machine learning workloads, whether training or inference, run on graphics processing units (GPUs). Through hardware architectures that support a highly parallel execution model, GPUs can perform simple operations on large amounts of data with extremely high throughput. This makes them ideal for machine learning problems involving large architectures or batch-style training and inference.
+
+However, complex GPU architectures cannot meet the demands of applications that require ultra-low latency (e.g. sub-microsecond latency) and high hardware efficiency. Processors (e.g. CPUs and GPUs) incur significant overhead from scheduling and optimizing instructions, dynamically accessing memory, and so on. Extremely specialized workloads with ultralow latency (e.g. $\sim$nanoseconds) and efficiency requirements are instead better served by *custom hardware accelerators*.
+
+Field-programmable gate arrays, or FPGAs, are reconfigurable digital logic devices that are extremely well-suited for this style of custom hardware acceleration. FPGAs contain lookup tables (LUTs), which represent digital functions by enumerating the output value for every combination of binary inputs; flip-flops (FFs), which store state; and other memory and computation primitives. These components and the connections between them are reconfigured to design a custom digital circuit, allowing for low-level hardware architecture and algorithm co-design that enables ultrafast machine learning. Importantly, neural networks are implemented *directly as digital logic*, rather than as instructions that are sequentially executed on a processor.
+
+### Background
+
+#### Fixed-point quantization
+
+FPGAs and other digital devices fundamentally operate on *bits* rather than continuous values. However, we often think about arithmetic operations in neural networks (e.g. $\times, +$) as happening over the real numbers $\mathbb R$. We thus need to encode real numbers as bitstrings (sequences of bits), a process known as *quantization*. Operations like addition and multiplication then become binary functions.
+
+One method for doing this is *fixed-point quantization*.
+
+> Fixed-point quantization represents numbers in base-2, where some bits (fractional bits) come after the decimal point. To illustrate, if we use 8 bits total with 4 fractional bits after the decimal point, we can represent $2^8$ values from $(-2^7) / 2^4 = -8$ to $(2^7 - 1) / 2^4 = 7.9375$, spaced evenly in increments of $1/2^4 = 0.0625$. We will assume here that the representable range is symmetric about zero.
+
+In a fixed-point quantization scheme, we can only represent a discrete set of values in some fixed range, which will lead to approximation error when trying to represent real values. One focus of resource-efficient machine learning is minimizing this approximation error, or *quantization error*, to enable stable training and inference.
+
+#### Lookup-table neural networks (LUT-NNs)
+
+FPGAs implement digital logic primarily through lookup tables (LUTs), which are small components that represent arbitrary binary functions by storing their output for each combination of binary inputs. For example, $\text{AND} : \{0, 1\}^2 \to \{0, 1\}$ is represented with a lookup table
+
+| Input ($x,y$) | $x\text{ AND }y$ |
+| --- | --- |
+| `00` | `0` |
+| `01` | `0` |
+| `10` | `0` |
+| `11` | `1` |
+
+It then makes sense to learn these binary functions, represented as lookup tables, as core primitives of a neural network: such a network is known as a lookup-table neural network (LUT-NN). However, learning lookup tables through gradient descent or similar approaches is difficult.
+
+To address this issue, recall that we can learn real-valued functions $f: \mathbb R \to \mathbb R$ through gradient descent. If we perform fixed-point quantization with $b\_i$ input bits and $b\_o$ output bits, $f$ becomes a binary function $f\_Q : \{0, 1\}^{b\_i} \to \{0, 1\}^{b\_o}$. We can then learn continuous $f$ and quantize to get our desired lookup tables!
+
+To convert $f$ into a LUT, we discretize the function domain and range into $N\_i = 2^{b\_i}$ and $N\_o = 2^{b\_o}$ values. The lookup table of $f\_Q$ stores, for each of the input values $I \in \{I\_0, I\_1, \ldots, I\_{N\_i-1}\}$, the corresponding output.
+
+![LUT quantization process](https://aarushgupta.io/assets/img/LUT_Quantized.png)
+*Quantizing a continuous $f$ (dashed line) to a binary function $f\_Q$ (orange dots).*
+
+The example function $f$ above, where $q\_{l-1}$ and $q\_{l}$ represent quantization of the inputs and outputs, produces a binary function $f\_Q$ with LUT:
+
+| \(q\_{l-1}(x\_l)\) | \(q\_l(x\_{l+1})\) |
+| --- | --- |
+| `00` | `000` |
+| `01` | `011` |
+| `10` | `100` |
+| `11` | `111` |
+
+We could also extend this approach to represent multivariate functions as lookup tables, where $f\_m: \mathbb{R}^{d\_i} \to \mathbb{R}^{d\_o}$ would turn into a binary function with $d\_i b\_i$ input bits and $d\_o b\_o$ output bits.
+
+> In this lookup table, we store entries of size $d\_o b\_o$ for each of the $2^{d\_i b\_i}$ possible combinations of inputs.
+
+This is clearly impractical for any reasonable $d\_i$. LUT-based networks therefore combine smaller lookup tables with arithmetic operations to enable architectures that are expressive, resource efficient, and easily trainable.
+
+#### Kolmogorov-Arnold Networks (KANs)
+
+KANs replace the learnable weights and fixed activation functions in MLP (multi-layer perceptron) architectures with *learnable activation functions*. In this work, we demonstrate that KANs are a natural architecture for efficient, expressive LUT-NNs.
+
+In a KAN layer, each edge carries a *learnable univariate function* instead of a scalar weight. For a KAN layer with $n\_{\mathrm{in}}$ inputs and $n\_{\mathrm{out}}$ outputs, the activation of the $q$-th output is
+
+\[y\_q = \sum\_{p=1}^{n\_{\mathrm{in}}} \phi\_{q,p}(x\_p),\]
+
+where $\phi\_{q,p} \colon \mathbb{R} \to \mathbb{R}$ are the learned edge activations. Compared to an MLP, which uses
+
+\[y\_q = \sigma\left( \sum\_{p=1}^{n\_{\mathrm{in}}} w\_{q,p} x\_p + b\_q \right)\]
+
+with fixed $\sigma$, the KAN places the nonlinearity in the edge functions $\{ \phi\_{q,p} \}$ and keeps the node operation as a simple sum.
+
+The next question is how to learn the KAN activations $\{ \phi\_{q,p} \}$. To do so, we parametrize them as linear combinations of some functional basis:
+
+\[\phi\_{q,p}(x) = \sum\_{i=1}^n c\_{q,p,i}B\_i(x),\]
+
+which allows us to treat the coefficients $c\_{q,p,i}$ as trainable parameters for gradient descent. The original KAN paper uses *B-splines*, which form a polynomial basis that is smooth and also *local*, i.e. only a subset of basis functions are nonzero for any given input. Additionally, B-splines, and therefore the activations $\{ \phi\_{q,p} \}$, are defined over a small, finite domain (e.g. $[-1, 1]$), which turns out to be important.
+
+> Terminology: B-splines refer to the basis functions ${B\_i}$, whereas activations refer to the learned $\phi\_{q,p}(x) = \sum\_{i=1}^n c\_{q,p,i}B\_i(x)$.
+
+While the complete behavior of the KAN architecture has yet to be fully explored, it offers potential improvements over MLPs in scaling laws, parameter efficiency, and interpretability. For ultrafast machine learning, the first two characteristics are especially relevant.
+
+### KANs as trainable LUT-NNs
+
+#### Approach
+
+The key idea of our first paper is to use KANs as a principled way to build trainable LUT-NNs. We represent each activation function in the network with a separate LUT, using the procedure discussed in the LUT-NN background section. We now demonstrate that KAN activations are particularly well-suited for LUT representation.
+
+Many other LUT-NN schemes represent *multivariate* functions as lookup tables, which is inefficient: as we saw earlier, the number of LUT entries scales exponentially with input dimension. In contrast, the **core property of KANs** is that they sum univariate activations, avoiding exponential scaling and enabling straightforward pruning (i.e. removing unimportant network components to reduce resource usage). Additionally, because each activation is defined over a small finite domain (e.g. $[-1,1]$), we can cover the entire input range when quantizing the function!
+
+#### Implementation
+
+Here, we train KANs in software (e.g. PyTorch on CPUs/GPUs) using standard techniques and then deploy fixed models for inference on FPGAs.
+
+To perform on-FPGA inference for a trained KAN layer, we adopt a fixed-point quantization scheme and compute the activations $\{ \phi\_{q,p} \}$ in parallel using lookup tables. Then, we perform the sum $\sum\_{p=1}^{n\_\text{in}} \phi\_{q,p}(x\_p)$ using $n\_\text{in} - 1$ pairwise additions (arranged in an [adder tree](https://raintown.org/lava/adder_tree_n.jpg)).
+
+> We convert each complete activation $\phi\_{q,p}(x\_p)$ to a lookup table, *not* the B-splines ${B\_i}$ themselves. This is because the model is pretrained and activations are fixed at inference time.
+
+For multi-layer networks, we construct the circuits described above for each layer (whose LUTs store their respective learned activations) and connect each layer’s outputs to the next layer’s inputs.
+
+![KAN LUT-based inference architecture](https://aarushgupta.io/assets/img/KAN_Teaser.png)
+*Overview of the architecture for efficient LUT-based KAN inference on FPGAs.*
+
+#### Results
+
+This framework **matches and surpasses state-of-the-art neural network FPGA accelerators** on metrics including latency and resource usage, with a 2700x speedup over prior KAN-FPGA implementations. Check out the paper for more details if you’re interested!
+
+### Real-time on-FPGA learning
+
+#### Motivation
+
+Training a model in software and deploying it to an FPGA provides extremely fast inference, but the model itself is still fixed after deployment. In many real-time settings, however, the system being modeled is not static: its state or properties can evolve at high frequencies. In applications such as quantum control and nuclear fusion, a model may therefore need to adapt its behavior within a fraction of a microsecond while still performing ultrafast inference.
+
+This is the motivation for *online learning*: instead of treating the FPGA as an inference-only device for pretrained models, we also update the model in real time as new data arrives. We stream in inputs, run the model, compare each prediction against feedback or a target value, and use that error to update the model parameters. In other words, the forward pass, backward pass, and gradient update all run on the FPGA itself, rather than only the forward pass.
+
+> Unlike a CPU/GPU, which fetches weights from memory, calculates gradients, and writes them back, the FPGA implements the gradient update logic as a dedicated, parallel circuit that directly modifies the FPGA memory storing the coefficients.
+
+Although the concept of real-time gradient updates on FPGAs has been underexplored and historically considered impractical, we demonstrate that the ideas of LUT-based KAN inference can be extended to enable this form of online learning at *sub-microsecond timescales*.
+
+#### Approach
+
+Because we now want to train models on the FPGA rather than only run inference with static, pre-trained ones, we store the B-spline basis functions $\{ B\_i \}$ in LUTs rather than the learned activations $\{ \phi\_{q,p} \}$.
+
+> The reason is that the coefficients $c\_{q,p,i}$ in
+>
+> \[\phi\_{q,p}(x) = \sum\_{i=1}^n c\_{q,p,i}B\_i(x)\]
+>
+> are updated as training progresses on-FPGA: since the activations $\{ \phi\_{q,p} \}$ keep changing, *we cannot precompute and store them*.
+>
+> Instead, we must look up B-spline values and multiply them by each activation’s coefficients to compute it.
+
+We now demonstrate certain properties of the B-spline basis $\{ B\_i \}$ that make gradient updates both sparse and stable under fixed-point quantization, enabling gradient-based learning with extremely low latency and a small resource footprint compared to prior approaches.
+
+##### Local basis functions
+
+B-spline basis functions have the property that only a small subset of them are nonzero (“active”) for any given input value. To achieve this, the input range is split into $G$ intervals, or “grid cells”. For B-spline polynomials of order $S$, $G+S$ basis functions form a complete basis, but only $S+1 \ll G+S$ of them are nonzero over any particular interval.
+
+![Local basis functions illustration](https://aarushgupta.io/assets/img/LUT_Illustration.png)
+*B-spline basis functions for $G=3, S=2$. Note that only $S+1=3$ basis functions are nonzero over each grid cell.*
+
+We exploit this locality as follows. Within every interval, the $S+1$ active basis functions have the same shape (just shifted from one interval to the next); only their coefficients differ between intervals. To evaluate an activation, we compute those fixed $S+1$ basis functions, multiply them by the coefficients for the current interval, and sum the results.
+
+> As a result, the hardware logic required for the forward and backward passes of a KAN spline scales with $S+1$, *not* $G$. In particular, we can “horizontally” scale KANs by increasing the grid size $G$ to improve model expressivity without scaling up $S$.
+
+##### Stable fixed-point training
+
+A common issue with FPGA-based training is that neural network training often produces weights and gradients that vary widely in magnitude. However, with a fixed number of bits, there is a tradeoff between representing small values precisely (fine precision) and covering a large range of magnitudes.
+
+Furthermore, multi-layer perceptrons (MLPs) primarily consist of matrix multiplications whose output magnitudes scale with the input activation magnitudes, widening the range of values that quantization must cover. Even with bounded activation functions like sigmoid or tanh, the intermediate values fed into those activations suffer from the same issue when quantized.
+
+However, it can be shown that the B-splines in KANs satisfy $\sum\_i B\_i(x) = 1$. For any given input $x$, the output
+
+\[f(x) = c\_1 B\_1(x) + c\_2 B\_2(x) + \ldots + c\_{S+1} B\_{S+1}(x)\]
+
+is therefore always bounded between the smallest and largest coefficient: $\min\_i c\_i \leq f(x) \leq \max\_i c\_i$. The gradients follow similar bounds. This means that, in KANs, both activations and gradients remain within predictable, input-independent ranges. This makes it easier to select an optimal quantization range, which reduces quantization error for gradient updates and significantly improves learning stability.
+
+#### Implementation
+
+Concretely, the forward pass for a KAN spline works as follows. For a given input $x$, we first compute its interval index $i$ and its offset $x\_o = x - x\_\text{interval start}$ within that interval. We then look up the basis function values $f\_1(x\_o), f\_2(x\_o), \ldots, f\_{S+1}(x\_o)$, and take their linear combination using interval $i$’s coefficients (which are themselves retrieved dynamically).
+
+In computing parameter gradients during the backward pass, we use standard backpropagation techniques. Specifically, we precompute the B-spline derivatives in LUTs and reuse the activations stored during the forward pass. Gradients are then directly multiplied by a fixed learning rate and added to model parameters.
+
+![ECLAIR on-chip learning architecture](https://aarushgupta.io/assets/img/ECLAIR_ICML26.png)
+*Only a small fraction of basis functions are computed for the KAN activation, compared to dense matmuls for MLPs.*
+
+#### Results
+
+In the paper, we demonstrate that KAN-based online learners can scale up to 50,000+ parameters while performing forward and backward passes at **sub-microsecond latencies**, which has, to our knowledge, not been achieved prior to this work for gradient-based learning. Additionally, compared to MLPs, KANs demonstrate significantly better hardware scaling (near-constant resource usage as we scale up $G$) and convergence on a variety of benchmarks, including function approximation, qubit readout, and non-stationary control.
+
+### Conclusion
+
+This work shows that activations in Kolmogorov-Arnold Networks map naturally to lookup tables on FPGAs, allowing for extremely efficient nanosecond-latency inference. Additionally, properties of KAN activations, including B-spline locality and boundedness, allow for stable and sparse gradient updates *on-FPGA*. More broadly, we conclude that properties of Kolmogorov-Arnold Networks and their learned activations, while hard to exploit on GPUs, should be explored further on custom hardware accelerators.
+
+---

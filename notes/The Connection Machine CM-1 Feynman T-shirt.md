@@ -1,0 +1,25 @@
+---
+title: "The Connection Machine CM-1 \"Feynman\" T-shirt"
+url: https://tamikothiel.com/cm/cm-tshirt.html
+clipped: 2026-06-17 01:49:19
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+---
+
+# [The Connection Machine CM-1 "Feynman" T-shirt](https://tamikothiel.com/cm/cm-tshirt.html)
+
+## Digest Summary
+Tamiko Thiel created the CM‑1 “Feynman” T‑shirt logo in 1983, preceding the actual Connection Machine design; the machine was later built to match the logo, making it the only supercomputer inspired by apparel. The graphic depicts a 12‑dimensional “cube of cubes” representing the hardware network that interconnects all processor chips within a maximum of 12 steps—a topology suggested by Nobel physicist Richard Feynman. Red “pom‑poms” illustrate software data structures, which are not constrained by the hardware topology. The classic color scheme uses a black shirt, yellow‑gold for the hardware cube, and red for the pom‑poms, echoing the machine’s chassis and blinking status lights. The shirt gained public attention when Apple featured a photo of Feynman wearing it in the “Think Different” campaign. The design is sold in men’s, women’s, and kids’ versions, with ordering options for the USA and Europe via Spreadshirt.
+
+## Discussion Summary
+Comments express enthusiasm for the article on Feynman’s involvement with the Connection Machine, noting its appeal to computing‑history fans. Readers highlight the distinctive LED panels, recalling their appearance in popular media and praising restoration efforts. Practical remarks mention ordering experiences, including concerns about shrinkage in dryers and size mismatches. Some users note regional availability limits, such as lack of access in Japan. Overall tone is appreciative and nostalgic, with minor logistical frustrations.
+
+---
+
+## Full Article
+
+|  |  |  |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| *Tamiko Thiel:* The Connection Machine  o [Main Page](https://tamikothiel.com/cm/index.html)   o [CM Legacy: Technology](https://tamikothiel.com/cm/cm-30th.html)   o [CM-1/CM-2 Design Legacy](https://tamikothiel.com/cm/cm-design.html)   o [Articles](https://tamikothiel.com/cm/cm-articles.html)   o [Image Galleries](https://tamikothiel.com/cm/cm-pictures.html)   o "Feynman"  CM-1 T-shirt | CM-1/CM-2 "Feynman" T-shirts Skip the lecture and [Order T-shirts in the USA](https://shop.spreadshirt.com/mission-base-creations/) - or - [Order T-shirts in Europe](https://shop.spreadshirt.de/mission-base-eu-creations/).   CM-1 Logo design:   |  |  | | --- | --- | | CM-1 logo  This is the t-shirt logo I designed in 1983, even before we had come up with the design for the CM-1 itself. In fact, we designed the CM-1 to look like this logo, thus making it the only supercomputer designed after a t-shirt!  The t-shirt became famous in the 1990s when Apple used a photo of Nobel physicist Richard Feynman wearing it in their "Think different" campaign. Read my article on the [Design of the Connection Machine](http://tamikothiel.com/theory/cm_txts/index.html) to see why he wore it!  (See also Thunko [photo shoot.](https://tamikothiel.com/cm/tshirt/tshirt.html)) | tamiko-richard_t-shirt | | Short explanation of the logo:  * The geometric boxes and their 'hard' connections represent the 12-dimensional 'cube of cubes' that forms the internal hardware network connecting all processor chips with each other in a maximum of 12 steps. Feynman is the one who suggested this structure, and I played with the topology until I came up with this representation, which can be expanded for an infinite number of dimensions. * The pom-poms and their 'soft' connections represent the software data structures inside the machine, which need not follow the topology of the hardware network. * For the full story, read the chapter "Architecture of a new machine"   in my [article](https://tamikothiel.com/theory/cm_txts/di-frames.html) on designing the look of the Connection Machine!     connection machine  A CM-2 was acquired by MoMA NY in 2016, 30 years after the first CM-1 was launched. Here in "[Thinking Machines: Art and Design in the Computer Age, 1959-1989](https://www.moma.org/calendar/exhibitions/3863)," 2017.   Colors: There are many color schemes, but I consider the 'classic' CM-1 to be:  * t-shirt: black like the machine itself * 12-dimensional cube of cubes: yellow-gold for the hardware network * 'pom-poms:' red like the blinking red processor status lights | |      |  |  |  | | --- | --- | --- | | Men's designs | Women's / Kids designs | Accessories | | logo men's |  |  |      Order the Feynman CM-1 t-shirt in the USA: (For questions on ordering or returns, please see the spreadshirt [customer help.](https://service.spreadshirt.com/hc/en-us/articles/115000984869)       Order the Feynman CM-1 t-shirt in Europe:   (For questions on ordering or returns, please see the spreadshirt [customer help.](https://service.spreadshirt.com/hc/en-gb/articles/115000984869)) |

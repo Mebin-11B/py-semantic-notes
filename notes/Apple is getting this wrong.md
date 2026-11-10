@@ -1,0 +1,146 @@
+---
+title: "Apple is getting this wrong"
+url: https://openai.com/index/apple-is-getting-this-wrong/
+clipped: 2026-08-31 12:22:25
+source: "Web Clipper"
+tags:
+  - web-clipper
+  - clipping
+---
+
+# [Apple is getting this wrong](https://openai.com/index/apple-is-getting-this-wrong/)
+
+## Full Article
+
+OpenAI
+
+August 3, 2026[Company](https://openai.com/news/company-announcements/)
+
+# Apple is getting this wrong
+
+Loading…Share
+
+Apple is one of the greatest companies of all time, and built a reputation for obsessing over the smallest details. This careless, aggressive and oddly personal lawsuit sadly doesn’t live up to that reputation.
+
+Apple had claimed that they contacted OpenAI in February and that we didn’t respond. They now admit that their outside lawyers emailed the wrong person after confusing two Asian last names—only after we brought this to their attention. Apple also claimed they had a discussion with our General Counsel, which they now concede never happened. But they again hide the fact that they never raised the specific allegations in this lawsuit at that time, and that they in fact told us that they were “resolving any issues”. We then heard nothing for five months until they sued. In their latest filing, Apple tries hard to spin this sequence of events, but you can just read the emails for yourself [here⁠](https://openai.com/index/apple-is-getting-this-wrong/#email-correspondence).
+
+Apple accuses Chang Liu of accessing Apple confidential information after leaving the company, but only now admits that Apple employees reached out to him and asked for his help to locate this information (you can read the messages [here⁠](https://openai.com/index/apple-is-getting-this-wrong/#messages)). Apple now tries to shift the blame to “residual access”, but they also don’t disclose that this is a common issue with Apple which is caused by them failing to properly manage system access when people leave. What that means in practice is that former employees who are trying to do the right thing when they leave still have access to Apple files—despite not wanting them or even being aware of them.
+
+Apple also accuses Tang Tan of trying to get and use their trade secrets. However, Tang has always been clear with the team that we do not want, and must not use, any confidential information from other companies. Tang served Apple for more than 24 years and was widely known as one of the most innovative leaders at the company.
+
+We wish Apple had raised these issues with us before they filed their lawsuit and would have been happy to clarify all of this with them. We have taken the allegations in the lawsuit seriously and offered to work with Apple to resolve this. Instead, they’re trying to change their narrative, including by making vague accusations about other former employees, and will likely keep repeating this tactic.
+
+Apple’s request for a preliminary injunction is both based on false information and completely unnecessary because we do not have, nor want, any of their trade secrets. We’re much more interested in building innovative products and technologies that push the frontier.
+
+August 6, 2026 update: You can read our Motion to Dismiss [here⁠(opens in a new window)](https://storage.courtlistener.com/recap/gov.uscourts.cand.474095/gov.uscourts.cand.474095.59.0.pdf).
+
+## Messages
+
+iMessages between Chang Liu (in blue) and Apple employees, where Chang—whose last day with Apple was January 22, 2026—is being asked by his former colleagues to help them locate files and information to assist them with their Apple work (all times UTC). Note: other individual names and Apple confidential information have been redacted.1/22/2026 4:43:19 PMHey [Apple Employee #1], i had something we need to discuss when you get to office.1/22/2026 4:43:41 PMOK. I can talk on the phone now if you like.1/22/2026 5:48:02 PMI am here at the office.1/22/2026 9:39:14 PMAround your desk1/22/2026 9:39:34 PMBe there in 4.1/22/2026 9:44:34 PMDo you wanna meet me at the coffee machine?1/22/2026 11:25:45 PMI found a 64GB drive. Do you think that will work>1/22/2026 11:26:59 PMI think 200 ish. We start from 64. Better than nothing1/23/2026 12:41:56 AMStill copying1/23/2026 5:13:02 PMGood morning. I hope you slept well. Maybe you are still sleeping 😊
+I’m back in the office and restarting the airdrop as it didn’t work.
+My plan is to complete the airdrop and then click the sad button in workday.1/23/2026 5:38:25 PMLiked “Good morning. I hope you slept well. Maybe you are still sleeping 😊
+I’m back in the office and restarting the airdrop as it didn’t work.
+My plan is to complete the airdrop and then click the sad button in workday.”1/23/2026 5:39:51 PMThanks a lot [Apple Employee #1]. Was a very hard night last night. I really appreciate all the help and work together with you.1/23/2026 5:41:09 PMIf you have time you can also try to airdrop all other file in my apple iCloud folder.1/23/2026 5:42:22 PMThose are mainly shared files from other people. I found important detail notes from time to time.1/23/2026 5:42:59 PMAll the file folders [Redacted - Apple Information] are the file I generated as my personal note.1/23/2026 7:32:19 PMYour file transfer is a challenge.1/23/2026 7:33:24 PMCarlos Org Travel Summary
+Chang joined the spreadsheet.
+I think I’m going to have to hit the workday button before I’m complete.  I just got a weird message that is making me nervous (see below), so I am going to go hit the workday button now.1/23/2026 7:34:53 PMI don’t even think I have that file1/23/2026 7:35:03 PMMaybe the new Chang1/23/2026 7:35:20 PMYeah. . . it could be. No need for you to worry. 😊1/23/2026 7:35:37 PMThat new Chang has big shoes to fill.1/23/2026 7:36:18 PM😟 for the transfer. I think the archive and [Redacted - Apple Information] has most of file for you to dig. Otherwise team can always start from something brand new1/27/2026 1:45:26 AMHey [Apple Employee #1] hope everything is fine for copy pasting. You can keep my icloud connected if you still need more time. But might want to sign off my iMessage. As there might be my new company stuff showing up in that laptop.1/27/2026 3:06:56 AMOh shoot. Sorry. Let me finish up tomorrow and log everything out. I won’t look at anything else.1/27/2026 3:08:26 AMHey [Apple Employee #1], that’s totally ok. I am fine with you keep my icloud signed in for files. Just imessages might get you in trouble.1/27/2026 4:35:30 AMDo you recall any discussions on shipping [Redacted - Apple Information]? I thought the plan was to go for [Redacted - Apple Information] because [Redacted - Apple Information] is still not proven, but I don’t remember specific details. Of course, I could ask several folks, but you are the best. Even if you don’t work here anymore 😟1/27/2026 4:35:46 AM. . . of course [Redacted - Apple Information] is the plan for [Redacted - Apple Information]1/27/2026 4:39:27 AMHahahah no prob1/27/2026 4:39:47 AMThe decision is for all the product shipped in [Redacted - Apple Information] from a schedule standpoint.1/27/2026 4:39:59 AMHence [Redacted - Apple Information]. And [Redacted - Apple Information] for [Redacted - Apple Information]1/27/2026 4:40:30 AM[Redacted - Apple Information] make a [Redacted - Apple Information] because of that [Redacted - Apple Information] ramp time.1/27/2026 4:41:06 AM[Redacted - Apple Information] (es in March) will [Redacted - Apple Information] prototype build but too late for [Redacted - Apple Information].1/27/2026 4:42:29 AMAwesome: I was thinking [Redacted - Apple Information] for [Redacted - Apple Information] and [Redacted - Apple Information] for [Redacted - Apple Information]. But since [Redacted - Apple Information] was pushed back then it should get [Redacted - Apple Information] also.1/27/2026 4:42:41 AMI think we are aligned 😊1/27/2026 4:46:06 AMActually yes also [Redacted - Apple Information]1/27/2026 4:46:27 AMSorry I missed that. [Apple Employee #8 name] from Austin team is already working on that1/27/2026 4:47:07 AMLiked “Actually yes also [Redacted - Apple Information]”1/27/2026 4:47:10 AMLiked “Sorry I missed that. [Apple Employee #8 name] from Austin team is already working on that ”1/30/2026 5:54:31 PMHey [Apple Employee #1]! Hope you got all the material you need. Otherwise you might need to reach out to IST for some backup if they ever has1/30/2026 5:54:41 PMI rrealize the folder is gone from my iCloud1/31/2026 1:34:07 AMI just signed out of your iCloud account. When it asked me if I wanted to keep a copy of your stuff, I said NO.1/31/2026 2:28:08 AMLoved “I just signed out of your iCloud account. When it asked me if I wanted to keep a copy of your stuff, I said NO.”1/31/2026 2:28:18 AMThank you sir!1/31/2026 2:29:23 AMThis startup style company is a funny and will be very hard in a couple months😁😁2/14/2026 1:38:13 AMHow is it going over there? Did they let you off work early on a Friday so you can go bowling and drink beer?2/14/2026 1:38:25 AM. . . . or are they going to work you until 10pm?2/14/2026 1:39:47 AMJust in case you don’t have enough work, I need some help. I have a vague recollection of you talking about a [Redacted - Apple Information]. Can you give me a brief refresh of this and point me to an EE who may have some knowledge?2/14/2026 1:41:25 AM大笑「Just in case you don’t have enough work, I need some help. I have a vague recollection of you talking about a [Redacted - Apple Information]. Can you give me a brief refresh of this and point me to an EE who may have some knowledge?」2/14/2026 1:41:51 AMThis place is crazy… hahahah we use Ai all over the place2/14/2026 1:42:21 AMI can always give you some fun side projects2/14/2026 1:44:17 AMI think what you referred to is [Redacted - Apple Information]. And the small [Redacted - Apple Information].2/14/2026 1:44:41 AMThe problem is the people is also in my court now 😁😁2/14/2026 1:45:00 AMPlus if [Apple Employee #9] might still remember anything2/14/2026 1:47:39 AMLiked “I can always give you some fun side projects”2/14/2026 1:52:30 AM[Redacted - Apple schematic]
+Bummer. . . you should have filed a [Redacted - Apple Information] with the details and put that next to the [Redacted - Apple Information] on the schematic.  Now you owe me a beer.2/14/2026 1:53:43 AMoops now it can only become a [Redacted - Apple Information] saying now we never know why 😁😁2/14/2026 3:12:57 AMNow when I think about it. The other smart people also just left that team. The one that might still in apple is [Apple Employee #10]2/14/2026 3:13:12 AMOr if you have a more specific question3/5/2026 9:23:11 PMchang:  if I understood correctly, you said that the [REDACTED - Apple Information] powers a downstream [REDACTED - Apple Information]
+that then powers [REDACTED - Apple Information]. Is that right?
+
+Who should I contact about that [REDACTED - Apple Information]?3/5/2026 9:35:19 PMA few things you can look for. In our team box folder/[REDACTED - Apple Information]/. There should be a [REDACTED - Apple Information].
+And there is a power block diagram to show the [REDACTED - Apple Information]. Or find [Apple Employee #5] to get the [REDACTED -
+Apple Information].
+Contact is [Apple Employee #6]and [Apple Employee #7]. [REDACTED - Apple Information] need more sensitive for [REDACTED - Apple
+Information] than current design. Hence they need to rise [REDACTED - Apple Information]3/5/2026 9:35:59 PMHi [Apple Employee #1 Name], [Apple Employee #3 Name], I can help get the conversation with [Apple Employee #6] and [Apple
+Employee #7] started3/5/2026 9:37:28 PMHi, this is highly irregular, please remove me from this thread3/5/2026 9:44:21 PMThanks Chang. [Apple Employee #2 Name] and [Apple Employee #3 Name] I put you on this thread for awareness. Let’s continue our
+discussion internally.3/5/2026 9:50:48 PMLiked “Thanks Chang. [Apple Employee #2 Name] and [Apple Employee #3 Name] I put you on this thread for awareness. Let’s continue
+our discussion internally.”
+
+## Email correspondence
+
+The following emails are between Apple’s outside counsel, Gabriel Gross; OpenAI’s General Counsel Che Chang; and Apple’s in-house legal counsel. They show that Gross emailed Che by mistake and inaccurately claimed the two had spoken. Both Gross and Apple’s in-house legal counsel subsequently confirmed that this was an error, with Gross noting they were “resolving any issues.” The specific claims in Apple’s lawsuit were never raised, and there was no further follow up prior to the lawsuit being filed five months later.From: Gabriel GrossDate: Monday, February 23, 2026 5:53 PMSubject: Former Apple Employees at OpenAI Retaining Non-public, Confidential, and Proprietary InformationTo: <redacted> <redacted>
+
+Dear Mr. Chang:
+
+Please see the attached letter and let me know when you are free to discuss it.
+
+Yours,
+
+Gabriel Gross
+Partner
+Weil, Gotshal & Manges LLP
+<redacted>
+<redacted>
+<redacted> Direct
+<redacted> Mobile
+
+The information contained in this email message is intended only for use of the individual or entity named above. If the reader of this message is not the intended recipient, or the employee or agent responsible to deliver it to the intended recipient, you are hereby notified that any dissemination, distribution or copying of this communication is strictly prohibited. If you have received this communication in error, please immediately notify us by email, <redacted> and destroy the original message. Thank you.
+
+Attachments:
+
+- image001.jpg (6K)
+
+- 2026.02.23 G. Gross letter to <redacted> Wang(101156327.1).pdf (225K)
+
+- Ex. A.pdf (491K)
+
+- Ex. B.pdf (91K)
+
+- Ex. C.pdf (1646K)
+From: Gabriel Gross <redacted>Date: Mon, Feb 23, 2026 at 6:06 PMSubject: RE: Former Apple Employees at OpenAI Retaining Non-public, Confidential, and Proprietary InformationTo: <redacted> <redacted>
+
+Dear Mr. Chang:
+
+Thank you for your phone call just now and for offering your cooperation so quickly. I will be back in touch after speaking with Apple. I realize I neglected to include the three attachments when I sent you my letter, so I am re-sending it with the attachments for your records.
+
+Yours,
+
+GabeFrom: Che Chang <redacted>Date: Feb 23, 2026, at 8:04 PMSubject: Re: Former Apple Employees at OpenAI Retaining Non-public, Confidential, and Proprietary InformationTo: <redacted>
+
+Hi [Apple in-house legal counsel] and [Apple in-house legal counsel],
+
+This guy from Weil claims to be representing you. For some reason, he is lying about speaking with me on the phone. I don't know who he is and we have never spoken.
+
+I don't know what the point of his lie is, but could you please confirm if he is actually representing you, and if so, whether you have other counsel you can use. I don’t think interacting through him is appropriate given this behavior.
+
+If this isn’t the right Apple team, could you let me know who might be? Thank you.
+
+CheFrom: Gabriel Gross <redacted>Date: Tue, Feb 24, 2026 at 11:22 AMSubject: RE: Former Apple Employees at OpenAI Retaining Non-public, Confidential, and Proprietary InformationTo: <redacted> <redacted>
+
+Dear Mr. Chang:
+
+I write to follow up on my email and letter from yesterday. After I emailed you around 5:53 p.m. yesterday, I inadvertently also sent you another email around 6:07 p.m. that was intended for <redacted> Wang, one of the former Apple employees at issue. After we had emailed Mr. Wang yesterday about retaining Apple information, he promptly called me and offered to cooperate with Apple in resolving any issues. I then intended to email him again, but accidentally replied to my email chain with you instead. I apologize for the confusion that likely caused.
+
+Yours,
+
+Gabriel Gross
+Partner
+Weil, Gotshal & Manges LLP
+<redacted>
+<redacted>
+<redacted> Direct
+<redacted> Mobile
+
+GabeFrom: [Apple in-house legal counsel] <redacted>Date: Wed, Feb 25, 2026 at 8:45 PMSubject: Re: Former Apple Employees at OpenAI Retaining Non-public, Confidential, and Proprietary InformationTo: Che Chang <redacted>; Cc: <redacted> <redacted>, <redacted> <redacted>, <redacted> <redacted>
+
+Hi Che,
+
+Wanted to make sure to get back to you. Weil is our counsel on this matter, and I believe they should have contacted you explaining the miscommunication. Please feel free to direct any additional questions their way.
+
+Thanks,
+
+[Apple in-house legal counsel]
+- [2026](https://openai.com/news/?tags=2026)
+
+## Author
+
+OpenAI
+
+## Keep reading
+
+[View all](https://openai.com/news/)
+
+[Our decision on Cursor following its acquisition by SpaceXCompanyAug 28, 2026](https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/)
+
+[Supporting Thailand’s next generation of AI startupsCompanyAug 28, 2026](https://openai.com/index/supporting-next-generation-ai-startups-thailand/)
+
+[What students gain from ChatGPT and critical-thinking trainingCompanyAug 27, 2026](https://openai.com/index/what-students-gain-from-chatgpt-critical-thinking-training/)

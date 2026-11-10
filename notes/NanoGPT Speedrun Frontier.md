@@ -1,0 +1,17 @@
+---
+title: "NanoGPT Speedrun Frontier"
+url: https://www.primeintellect.ai/research/nanogpt-speedrun
+clipped: 2026-08-31 12:26:33
+source: "Web Clipper"
+tags:
+  - web-clipper
+  - clipping
+---
+
+# [NanoGPT Speedrun Frontier](https://www.primeintellect.ai/research/nanogpt-speedrun)
+
+## Full Article
+
+Collapse all modelsAll modelsBest validated result for each modelAll trajectoriesLog scaleFilter by model1Fable 5note2,72681.7% closedclaude-code · high@24H 3,0108.7dOpen2Opus 5serial era2,92053.6% closedclaude-code · max@24H 3,0452.9dOpen3Kimi K3serial era2,93052.2% closedprime-agent · max@24H 3,1253.6dOpen4Kimi K3note2,97445.8% closedkimi-code · max@24H 3,1355.1dOpen5Opus 4.83,01839.4% closedclaude-code · max@24H 3,1803.0dOpen6GPT-5.6 Solnote3,04235.9% closedcodex · xhigh@24H 3,1606.1dOpen7GPT-5.6 Sol Proserial era3,05833.6% closedcodex · xhigh@24H 3,1003.4dOpen8Sonnet 5note3,10526.8% closedclaude-code · max@24H 3,1202.0dOpen9GPT-5.6 Lunanote3,11026.1% closedcodex · xhigh@24H 3,1701.9dOpen10Grok 4.5note3,12024.6% closedgrok-cli · xhigh@24H 3,1602.7dOpen11Qwen3.8 Maxrunning3,12024.6% closedqwen-code · max@24H 3,2251.9dOpen12GLM 5.23,15020.3% closedpi · high@24H 3,2001.8dOpen13DeepSeek V4 Prorunning3,20512.3% closedclaude-code · max@24H 3,2051.1dOpen14GPT-5.6 Terraserial era3,21411.0% closedcodex · xhigh@24H 3,2141.1dOpen15Grok 4.6running3,22010.1% closedgrok-cli · xhigh0.6dOpen16Muse Spark 1.2running3,2308.7% closedmuse-code · xhigh0.6d17Muse Spark 1.13,2328.4% closedpi · max@24H 3,2403.7dOpen18GPT-5.5serial era3,2348.1% closedcodex · xhigh@24H 3,2341.1dOpen19Kimi K2.7note3,2407.2% closedkimi-code · max@24H 3,2401.6dOpen20GLM 5.3running—no recordclaude-code · xhighModelHarness↑RecordGap Closed@24HTotal TokOutput TokExpsCallsDaysTracesFable 5claude-code · highnote2,72681.7%3,010800M1.1M8113k8.7OpenOpus 5claude-code · maxserial era2,92053.6%3,045183M690k2924012.9OpenKimi K3prime-agent · maxserial era2,93052.2%3,125112M2.2M—4883.6OpenKimi K3kimi-code · maxnote2,97445.8%3,135682M1.4M7134k5.1OpenOpus 4.8claude-code · max3,01839.4%3,180318M2.3M4272k3.0OpenGPT-5.6 Solcodex · xhighnote3,04235.9%3,1602.9B2.2M96328k6.1OpenGPT-5.6 Sol Procodex · xhighserial era3,05833.6%3,1001.2B4.6M5097k3.4OpenSonnet 5claude-code · maxnote3,10526.8%3,120998M2.1M2132k2.0OpenGPT-5.6 Lunacodex · xhighnote3,11026.1%3,170894M888k36212k1.9OpenGrok 4.5grok-cli · xhighnote3,12024.6%3,16046M385k3994k2.7OpenQwen3.8 Maxqwen-code · maxrunning3,12024.6%3,225216M629k3128661.9OpenGLM 5.2pi · high3,15020.3%3,20057M1.7M1941k1.8OpenDeepSeek V4 Proclaude-code · maxrunning3,20512.3%3,20526M319k1893091.1OpenGPT-5.6 Terracodex · xhighserial era3,21411.0%3,214417M298k1543k1.1OpenGrok 4.6grok-cli · xhighrunning3,22010.1%—27M346k976910.6OpenMuse Spark 1.2muse-code · xhighrunning3,2308.7%—41M910k567240.6—Muse Spark 1.1pi · max3,2328.4%3,240122M1.6M4892k3.7OpenGPT-5.5codex · xhighserial era3,2348.1%3,23470M77k1856141.1OpenKimi K2.7kimi-code · maxnote3,2407.2%3,240160M763k1873k1.6OpenGLM 5.3claude-code · xhighrunning—————————Compare ResultsTracesModelRecordHuman 2,600Baseline 3,290Fable 53,010Opus 53,045GPT-5.6 Sol Pro3,100Sonnet 53,120Kimi K3 · prime-agent3,125Kimi K33,135GPT-5.6 Sol3,160Grok 4.53,160GPT-5.6 Luna3,170Opus 4.83,180GLM 5.23,200DeepSeek V4 Pro3,205GPT-5.6 Terra3,214Grok 4.63,220Qwen3.8 Max3,225Muse Spark 1.23,230GPT-5.53,234Muse Spark 1.13,240Kimi K2.73,240GLM 5.3—Gray runs ended before the selected budgetLoading available trajectories…
+
+Open Traces to explore 41 curated full agent trajectories, including tool calls, subagents, and scratchpads.

@@ -1,0 +1,112 @@
+---
+title: "help i accidentally a wigglegram"
+url: https://lmao.center/blog/wiggle-accidents/
+clipped: 2026-08-31 12:26:30
+source: "Web Clipper"
+tags:
+  - web-clipper
+  - clipping
+---
+
+# [help i accidentally a wigglegram](https://lmao.center/blog/wiggle-accidents/)
+
+## Full Article
+
+[lmaocenter](https://lmao.center/) > [blog](https://lmao.center/#blog) >
+            
+            
+
+## help i accidentally a wigglegram
+
+            
+                
+                    [<<< older](https://lmao.center/blog/superglue-printing)
+                
+                
+                    
+                        [feed](https://lmao.center/rss.xml)
+                        ~ jun 04 '26
+                     
+                
+                
+            
+            
+
+            
+
+Do you know what a [wigglegram](https://en.wikipedia.org/wiki/Wiggle_stereoscopy) is?
+â³ c. "suavecorn" on reddit
+
+It is a kind of stereo image you make by looping frames together, like as a GIF.
+â³ c. "aka_hochstapler" on reddit
+
+The effect is quite convincing.
+â³ c. "suavecorn" on reddit
+
+I am something of an indecisive photographer and when I like an angle I will take a lot of frames, from slightly different angles etc., looking for "the shot". And since I am also a bit of a hoarder I never clear out my camera roll.
+
+"Same shot from different angles"? You know what that sounds a bit familiar.
+â³ scrollin'
+
+Sure enough my phone is full of wigglegrams that I took by accident. Years' worth, waiting for me to sit down and stitch them together.
+
+Or, perhaps, for something to stitch them together. It occurred to me last weekend that I can use [perceptual hashing](https://en.wikipedia.org/wiki/Perceptual_hashing) - what TinEye (et al.) uses for reverse image search - to try and find runs of similar images and pull them out from my library automatically. So I wrote a little script to hash all my pictures:
+â³ slowly, slowly
+
+Hashing is quick but downloading photos from iCloud is not.
+
+The result is a hash that - unlike a cryptographic function like sha1 - will share more bits with hashes of similar-looking images than with dissimilar ones. We can use that to calculate the hamming distance between pairs of images and find a threshold:
+â³ ten seems like a good boundary
+
+And extract pairs:
+â³ plausible...
+
+And hundreds of wigglegrams spew forth.
+â³ space mountain?
+â³ block island
+â³ deland
+â³ probably also disney?
+
+A few of them I am guilty of taking intentionally. But most are true accidents. As such many of them come out as less "stereoscopic" and more "kinescopic" - like little unintentional movies.
+â³ notting hill
+â³ perugia
+
+Animals are a natural fit for the concept, unpredictable as they are:
+â³ cat
+â³ another cat
+â³ dog
+â³ pigeon
+
+Design-work also. (I am always indecisive.)
+â³ ipad sidecar I should write on
+â³ baby book
+â³ same but doing a rad flip
+â³ resistor bridge
+â³ leg in pieces
+
+And sculpture:
+â³ olivetti
+â³ charlotte?
+â³ frog with a joint
+
+What fun. I have the script up on [Github](https://github.com/JCLemme/wiggle-wiggle) if you want to play with it - it'll work on your iCloud photos library if you're on a Mac, or you can point it at a directory of pictures otherwise.
+
+Cheers~
+â³ and happy birthday ig
+
+            
+            
+                
+                    [<<< older](https://lmao.center/blog/superglue-printing)
+                
+                
+                    [#personal](https://lmao.center/blog) [#photography](https://lmao.center/blog)
+                
+                
+            
+        
+        
+        
+
+spacer
+        [more juicy text for you to read](https://lmao.center/secret-link.html)

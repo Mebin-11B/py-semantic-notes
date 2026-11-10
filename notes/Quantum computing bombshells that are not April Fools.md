@@ -1,0 +1,42 @@
+---
+title: "Quantum computing bombshells that are not April Fools"
+url: https://scottaaronson.blog/?p=9665
+clipped: 2026-06-17 01:23:56
+source: "HackerNews Digest"
+tags:
+  - hn-digest
+  - clipping
+---
+
+# [Quantum computing bombshells that are not April Fools](https://scottaaronson.blog/?p=9665)
+
+## Digest Summary
+Two recent quantum‑computing announcements significantly lower resource estimates for cryptographic attacks. A Caltech team, including John Preskill, presented fault‑tolerant protocols using high‑rate quantum error‑correcting codes that reduce overhead, especially for architectures supporting non‑local gates such as neutral‑atom arrays or trapped ions. Separately, Google disclosed a more compact implementation of Shor’s algorithm capable of breaking 256‑bit elliptic‑curve cryptography; the result was released via a cryptographic zero‑knowledge proof that confirms the circuit’s existence without revealing its structure. Combined, these advances shrink the projected hardware needed to compromise Bitcoin signatures from millions of physical qubits to roughly 25 000 qubits, compressing the timeline for viable quantum attacks. The author emphasizes that, while fundamental quantum principles remain unchanged, the new quantitative thresholds strengthen the case for immediate migration to quantum‑resistant cryptographic schemes.
+
+## Discussion Summary
+The comment expresses skepticism toward the practical usefulness of quantum computing while acknowledging its appeal, questioning whether it can perform even basic calculations. It critiques the Bitcoin community’s portrayal of quantum threats as limited, arguing that the underlying cryptographic scheme is fundamentally vulnerable to quantum attacks and asking if credible post‑quantum solutions exist for P2SH wallets. The author also references personal financial interest in quantum hardware, hoping for a breakthrough but remaining doubtful about current capabilities.
+
+---
+
+## Full Article
+
+For those of you who haven’t seen, there were actually two “bombshell” QC announcements this week. One, from Caltech, including friend-of-the-blog John Preskill, [showed how to do quantum fault-tolerance](https://scirate.com/arxiv/2603.28627) with lower overhead than was previously known, by using high-rate codes, which could work for example in neutral-atom architectures (or possibly other architectures that allow nonlocal operations, like trapped ions). The second bombshell, from Google, [gave a lower-overhead implementation of Shor’s algorithm](https://scirate.com/arxiv/2603.28846) to break 256-bit elliptic curve cryptography.
+
+Notably, out of an abudance of caution, the Google team chose to “publish” its result via a cryptographic zero-knowledge proof that their circuit exists (so, without revealing the details to attackers). This is the first time I’ve ever seen a new mathematical result actually announced that way, although I understand that there’s precedent in the 1500’s, when mathematicians would (for example) prove their ability to solve quartic equations by challenging their rivals to duels. I’m not sure how much it will actually help, as once other groups know that a smaller circuit exists, it might be only a short time until they’re able to find it as well.
+
+Neither of these results change the basic principles of QC that we’ve known for decades, but they do change the numbers.
+
+When you put both of them together, Bitcoin signatures for example certainly look vulnerable to quantum attack earlier than was previously known!  In particular, the Caltech group estimates that a mere 25,000 physical qubits might suffice for this, where a year ago the best estimates were in the millions. How much time will this save — maybe a year?  Subtracting, of course, off a number of years that no one knows.
+
+In any case, these results provide an even stronger impetus for people to upgrade now to quantum-resistant cryptography.  They—meaning you, if relevant—should really get on that!
+
+When I got an early heads-up about these results—especially the Google team’s choice to “publish” via a zero-knowledge proof—I thought of Frisch and Peierls, calculating how much U-235 was needed for a chain reaction in 1940, but *not* publishing it, even though the latest results on nuclear fission had been openly published just the year prior. Will we, in quantum computing, also soon cross that threshold? But I got strong pushback on that analogy from the cryptography and cybersecurity people who I most respect. They said: we have decades of experience with this, and the answer is that you publish. And, they said, if publishing causes people still using quantum-vulnerable systems to crap their pants … well, maybe that’s what *needs* to happen right now.
+
+Naturally, journalists have been hounding me for comments, though it was the worst possible week, when I needed to host like four separate visitors in Austin. I hope this post helps! Please feel free to ask questions or post further details in the comments.
+
+And now, with no time for this blog post to leaven and rise, I need to go home for my family’s Seder. Happy Passover!
+
+This entry was posted
+on Wednesday, April 1st, 2026 at 4:26 pm and is filed under [Announcements](https://scottaaronson.blog/?cat=31), [Quantum](https://scottaaronson.blog/?cat=4).
+You can follow any responses to this entry through the [RSS 2.0](https://scottaaronson.blog/?feed=rss2&p=9665) feed.
+You can [leave a response](https://scottaaronson.blog/?p=9665#respond), or [trackback](https://scottaaronson.blog/wp-trackback.php?p=9665) from your own site.
