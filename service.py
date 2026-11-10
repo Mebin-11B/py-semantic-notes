@@ -24,8 +24,7 @@ def index_note(con, note_id):
 def create(con, title, body, url=None, source=None, tags=()):
     note_id = db.create_note(con, title, body, url, source, None, tags)
     index_note(con, note_id)
-    return db.get_note(con, db.slugify(title)) or con.execute(
-        "SELECT * FROM notes WHERE id=?", (note_id,)).fetchone()
+    return note_id
 
 
 def update(con, note, title, body, url, source, tags):
