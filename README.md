@@ -12,8 +12,9 @@ for **semantic search**. Built for a DBMS course mini project.
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ollama pull nomic-embed-text      # Ollama must be running
-python ingest.py --limit 200      # import 200 of the 2,369 notes (~4 min); omit --limit for all (~1 hour)
+python ingest.py --limit 200      # import 200 of the 2,369 notes (~30 s); omit --limit for all (~7 min with a GPU)
 python app.py                     # http://127.0.0.1:5000
+python eval.py                    # recall@3/@10 of keyword / semantic / hybrid search
 ```
 
 **Full documentation (architecture, schema, how to inspect both databases, demo script,

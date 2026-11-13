@@ -27,12 +27,17 @@ def main():
     ap.add_argument("--query")
     args = ap.parse_args()
     col = vectorstore.collection()
-    print(f"collection '{col.name}': {col.count()} vectors, metric = {col.metadata}")
+    notes_col = vectorstore.notes_collection()
+    print(f"collection '{col.name}': {col.count()} chunk vectors")
+    print(f"collection '{notes_col.name}': {notes_col.count()} note vectors (one per note)")
+    print(f"configuration: {col.configuration_json}")
 
     if args.query:
-        for h in vectorstore.query(embeddings.embed_query(args.query), n=5):
-            print(f"\nsimilarity {h['score']:.3f}  {h['vector_id']}  {h['meta']['title']}")
-            print("   ", h["text"][:150].replace("\n", " "))
+        qvec = embeddings.embed_query(args.query)
+        res = col.query(query_embeddings=[qvec], n_results=5, include=["documents", "metadatas", "distances"])
+        for vid, doc, meta, dist in zip(res["ids"][0], res["documents"][0], res["metadatas"][0], res["distances"][0]):
+            print(f"\nsimilarity {1 - dist:.3f}  {vid}  {meta['title']}")
+            print("   ", doc[:150].replace("\n", " "))
     elif args.note:
         with db.connect() as con:
             note = db.get_note(con, args.note)

@@ -377,3 +377,10 @@ def note_embed_text(title, summary, concepts, tags):
     if tags:
         s += "\nTags: " + ", ".join(tags)
     return s
+
+
+def chunks_for(title, lines):
+    """chunk_lines(), plus the original's fallback: a note with no body at all (a PDF the
+    clipper could not read) still gets ONE chunk holding its title, so it can be found."""
+    return chunk_lines(lines) or ([dict(start_line=1, end_line=1, section="", heading_path="", text=title)]
+                                  if title else [])
