@@ -3,3 +3,4 @@ chromadb
 requests
 markdown
 nh3
+pyyaml

@@ -59,14 +59,15 @@ def hybrid(con, q, limit=20, k=60):
     return sorted(merged.values(), key=lambda r: -r["rrf"])[:limit]
 
 
-def run(con, q, mode):
+def run(con, q, mode, log=True):
     results = {"keyword": keyword, "semantic": semantic, "hybrid": hybrid}[mode](con, q)
     for r in results:
         # escape everything, then re-enable only the <mark> tags FTS5 added
         r["snippet_html"] = Markup(html.escape(r["snippet"])
                                    .replace("&lt;mark&gt;", "<mark>").replace("&lt;/mark&gt;", "</mark>"))
         r["tags"] = db.note_tags(con, r["id"])
-    con.execute("INSERT INTO search_log(query, mode, n_results) VALUES (?,?,?)",
-                (q, mode, len(results)))
-    con.commit()
+    if log:
+        con.execute("INSERT INTO search_log(query, mode, n_results) VALUES (?,?,?)",
+                    (q, mode, len(results)))
+        con.commit()
     return results

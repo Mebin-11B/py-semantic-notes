@@ -13,4 +13,6 @@ EMBED_MODEL = "nomic-embed-text"      # 768-dimensional embeddings
 DOC_PREFIX = "search_document: "      # nomic wants task prefixes
 QUERY_PREFIX = "search_query: "
 
-CHUNK_TARGET = 1500                   # characters per chunk (roughly 350 tokens)
+CHUNK_TARGET = 1800                   # chars per chunk (~450 tokens); same as the original
+CHUNK_MAX = 2600
+CHUNK_MIN = 40
