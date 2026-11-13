@@ -45,27 +45,28 @@ def set_tags(con, note_id, tags):
         con.execute("INSERT INTO note_tags(note_id, tag_id) VALUES (?,?)", (note_id, tag_id))
 
 
-def create_note(con, title, body, url=None, source=None, clipped_at=None, tags=()):
-    slug = unique_slug(con, title)
+def create_note(con, title, body, url=None, source=None, clipped_at=None, tags=(),
+                summary="", concepts=(), path=None):
     cur = con.execute(
-        "INSERT INTO notes(slug,title,url,source,clipped_at,body,content_hash) VALUES (?,?,?,?,?,?,?)",
-        (slug, title, url, source, clipped_at, body, content_hash(title, body)),
-    )
+        "INSERT INTO notes(slug,path,title,url,source,clipped_at,summary,concepts,body,content_hash) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (unique_slug(con, title), path, title, url, source, clipped_at, summary, ", ".join(concepts),
+         body, content_hash(title, body)))
     set_tags(con, cur.lastrowid, tags)
     return cur.lastrowid
 
 
-def update_note(con, note_id, title, body, url, source, tags):
+def update_note(con, note_id, title, body, url, source, tags, summary):
     con.execute(
-        "UPDATE notes SET title=?, body=?, url=?, source=?, content_hash=?, "
+        "UPDATE notes SET title=?, body=?, url=?, source=?, summary=?, content_hash=?, "
         "updated_at=datetime('now') WHERE id=?",
-        (title, body, url, source, content_hash(title, body), note_id),
-    )
+        (title, body, url, source, summary, content_hash(title, body), note_id))
     set_tags(con, note_id, tags)
 
 
 def delete_note(con, note_id):
-    # chunks, note_tags rows go away through ON DELETE CASCADE
+    # chunks and note_tags rows go away through ON DELETE CASCADE
+    # (the chunks_ad trigger then clears chunks_fts)
     con.execute("DELETE FROM notes WHERE id=?", (note_id,))
 
 
@@ -80,16 +81,20 @@ def note_tags(con, note_id):
     return [r["name"] for r in rows]
 
 
-def replace_chunks(con, note_id, texts):
-    """Rewrite a note's chunk rows. Returns the vector ids (one per chunk)."""
+def replace_chunks(con, note_id, spans):
+    """Rewrite a note's chunk rows from parsing.chunk_lines() output."""
     con.execute("DELETE FROM chunks WHERE note_id=?", (note_id,))
-    ids = []
-    for i, text in enumerate(texts):
-        vid = f"{note_id}:{i}"
-        con.execute("INSERT INTO chunks(note_id,chunk_index,text,vector_id) VALUES (?,?,?,?)",
-                    (note_id, i, text, vid))
-        ids.append(vid)
-    return ids
+    for i, s in enumerate(spans):
+        con.execute(
+            "INSERT INTO chunks(note_id,chunk_index,section,heading_path,start_line,end_line,text,vector_id) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (note_id, i, s["section"], s["heading_path"], s["start_line"], s["end_line"], s["text"],
+             f"{note_id}:{i}"))
+    con.execute("UPDATE notes SET embed_state='pending' WHERE id=?", (note_id,))
+
+
+def chunks_of(con, note_id):
+    return con.execute("SELECT * FROM chunks WHERE note_id=? ORDER BY chunk_index", (note_id,)).fetchall()
 
 
 def chunk_vector_ids(con, note_id):

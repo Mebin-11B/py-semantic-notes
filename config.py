@@ -7,6 +7,7 @@ DATA_DIR = ROOT / "data"              # generated: SQLite file + Chroma folder
 SQLITE_PATH = DATA_DIR / "notes.db"
 CHROMA_DIR = DATA_DIR / "chroma"
 COLLECTION = "note_chunks"
+NOTE_COLLECTION = "note_vectors"
 
 OLLAMA_URL = "http://localhost:11434"
 EMBED_MODEL = "nomic-embed-text"      # 768-dimensional embeddings
