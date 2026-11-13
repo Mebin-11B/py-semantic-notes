@@ -43,7 +43,7 @@ def main():
     cases = json.load(open(config.ROOT / "eval" / "cases.json"))
     con = db.connect()
     for mode in [a.mode] if a.mode else ["keyword", "semantic", "hybrid"]:
-        score(f"this app / {mode}", lambda q, m=mode: [r["title"] for r in search.run(con, q, m, log=False)],
+        score(f"this app / {mode}", lambda q, m=mode: [r["title"] for r in search.run(con, q, m, log=False)[0]],
               cases, a.verbose)
     if a.original:
         score("original (Go) app", lambda q: [n["title"] for n in requests.get(
