@@ -6,9 +6,19 @@ import sqlite3
 import config
 
 
+class _ClosingConnection(sqlite3.Connection):
+    """Commit/rollback on context exit (sqlite3's default) and also close the fd."""
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        try:
+            super().__exit__(exc_type, exc_val, exc_tb)
+        finally:
+            self.close()
+
+
 def connect():
     config.DATA_DIR.mkdir(exist_ok=True)
-    con = sqlite3.connect(config.SQLITE_PATH)
+    con = sqlite3.connect(config.SQLITE_PATH, factory=_ClosingConnection)
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys = ON")
     return con
