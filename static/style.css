@@ -86,3 +86,7 @@ article .meta { margin-bottom: 1rem; }
 table { width: 100%; border-collapse: collapse; font-size: .9rem; }
 th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); } th { color: var(--ink-3); font-weight: 500; }
 code { font-family: var(--mono); font-size: .88em; }
+
+.notice { border: 1px solid var(--line); background: var(--paper-2); border-radius: 8px; padding: .6rem .9rem; color: var(--ink-2); font-size: .9rem; }
+.chans { display: inline-flex; gap: .25rem; }
+.ch { font-style: normal; font-size: .68rem; padding: 0 .4rem; border-radius: 4px; background: var(--paper-2); border: 1px solid var(--line); color: var(--ink-2); }

@@ -29,16 +29,17 @@ def home():
     mode = request.args.get("mode", "hybrid")
     if mode not in ("keyword", "semantic", "hybrid"):
         mode = "hybrid"
-    results, error = None, None
+    results, error, notice = None, None, None
     with db.connect() as con:
         if q:
             try:
-                results = search.run(con, q, mode)
+                results, notice = search.run(con, q, mode)
             except Exception as e:  # e.g. Ollama not running
                 error = f"Search failed: {e}"
         counts = con.execute("SELECT (SELECT COUNT(*) FROM notes) AS notes, "
                              "(SELECT COUNT(*) FROM tags) AS tags").fetchone()
-    return render_template("home.html", q=q, mode=mode, results=results, error=error, counts=counts)
+    return render_template("home.html", q=q, mode=mode, results=results, error=error, notice=notice,
+                           counts=counts)
 
 
 @app.get("/notes")
@@ -120,6 +121,8 @@ def status():
             "tags": q("SELECT COUNT(*) FROM tags")[0][0],
             "chunks": q("SELECT COUNT(*) FROM chunks")[0][0],
             "vectors": vectorstore.count(),
+            "note_vectors": vectorstore.note_count(),
+            "pending": q("SELECT COUNT(*) FROM notes WHERE embed_state='pending'")[0][0],
         }
         top_tags = q("SELECT t.name, COUNT(*) AS n FROM tags t JOIN note_tags nt ON nt.tag_id=t.id "
                      "GROUP BY t.id ORDER BY n DESC LIMIT 15")

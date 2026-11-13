@@ -7,7 +7,7 @@
   <form method="get" action="{{ url_for('home') }}" class="search">
     <input type="search" name="q" value="{{ q }}" placeholder="e.g. how do vector databases work?" autofocus>
     <select name="mode" title="Search mode">
-      {% for m, label in [('hybrid','Hybrid'),('semantic','Semantic (vector DB)'),('keyword','Keyword (SQL FTS5)')] %}
+      {% for m, label in [('hybrid','Hybrid (all channels)'),('semantic','Semantic (vector DB only)'),('keyword','Keyword (SQL FTS5 only)')] %}
       <option value="{{ m }}" {% if m == mode %}selected{% endif %}>{{ label }}</option>{% endfor %}
     </select>
     <button type="submit">Search</button>
@@ -15,6 +15,7 @@
 </section>
 
 {% if error %}<p class="error">{{ error }}</p>{% endif %}
+{% if notice %}<p class="notice">{{ notice }}</p>{% endif %}
 {% if results is not none %}
   <p class="muted small">{{ results|length }} result{{ '' if results|length == 1 else 's' }} · {{ mode }}</p>
   <ol class="results">
@@ -23,10 +24,13 @@
       <a class="title" href="{{ url_for('note_view', slug=r.slug) }}">{{ r.title }}</a>
       <div class="meta">
         {% if r.url %}<span>{{ r.url.split('/')[2] if r.url.count('/') >= 2 else r.url }}</span>{% endif %}
-        {% if r.score is not none %}<span title="cosine similarity of best chunk">sim {{ '%.2f'|format(r.score) }}</span>{% endif %}
+        {% if r.heading %}<span title="section of the best-matching chunk">{{ r.heading }}</span>{% endif %}
+        <span title="chunks of this note that matched">{{ r.matched }} chunk{{ '' if r.matched == 1 else 's' }}</span>
+        <span title="relative score (best = 1.00)">score {{ '%.2f'|format(r.score) }}</span>
+        <span class="chans" title="which retrieval channels found it">{% for c in r.channels %}<i class="ch ch-{{ c }}">{{ c }}</i>{% endfor %}</span>
         {{ tag_list(r.tags) }}
       </div>
-      <p class="snippet">{{ r.snippet_html }}</p>
+      <p class="snippet">{{ r.snippet|safe }}</p>
     </li>
   {% else %}<li class="muted">No results.</li>{% endfor %}
   </ol>

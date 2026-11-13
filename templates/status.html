@@ -6,9 +6,11 @@
   <div><b>{{ stats.notes }}</b><span>notes (SQLite)</span></div>
   <div><b>{{ stats.tags }}</b><span>tags</span></div>
   <div><b>{{ stats.chunks }}</b><span>chunk rows (SQLite)</span></div>
-  <div><b>{{ stats.vectors }}</b><span>vectors (ChromaDB)</span></div>
+  <div><b>{{ stats.vectors }}</b><span>chunk vectors (ChromaDB)</span></div>
+  <div><b>{{ stats.note_vectors }}</b><span>note vectors (ChromaDB)</span></div>
 </div>
-<p class="muted small">Chunk rows and vectors should match. Embedding model: <code>{{ model }}</code> (768 dimensions).</p>
+{% if stats.pending %}<p class="notice">{{ stats.pending }} note(s) still waiting for embeddings: run <code>python ingest.py</code>.</p>{% endif %}
+<p class="muted small">Chunk rows and chunk vectors should match; note vectors should equal the note count. Embedding model: <code>{{ model }}</code> (768 dimensions).</p>
 <div class="cols">
   <section><h2>Top tags</h2>
     <ul class="plain">{% for t in top_tags %}<li><a href="{{ url_for('notes_list', tag=t.name) }}">{{ t.name }}</a> <span class="muted">{{ t.n }}</span></li>{% endfor %}</ul></section>
